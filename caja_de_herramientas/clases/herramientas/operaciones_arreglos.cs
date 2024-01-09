@@ -138,7 +138,7 @@ namespace caja_de_herramientas.clases.herramientas
                 }
             
             }
-            return "no_se_encontro";
+            return null;
         }
 
 
@@ -325,5 +325,24 @@ namespace caja_de_herramientas.clases.herramientas
             return "no_se_encontro";
         }
 
+        public string si_no_existe_agrega_string(string[] areglo, string columnas_a_recorrer, string comparar, string texto_a_agregar, string[] caracteres_separacion = null)
+        {
+            if (caracteres_separacion == null)
+            {
+                caracteres_separacion = G_caracteres_separacion;
+            }
+
+            string info_encontrada=busqueda_profunda_arreglo(areglo, columnas_a_recorrer, comparar);
+            if (info_encontrada!=null)
+            {
+                return info_encontrada;
+            }
+            else
+            {
+                agregar_registro_del_array(areglo, texto_a_agregar);
+                return null;
+            }
+
+        }
     }
 }
