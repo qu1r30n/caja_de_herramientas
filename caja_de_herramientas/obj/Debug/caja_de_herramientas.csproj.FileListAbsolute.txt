@@ -1,0 +1,9 @@
+C:\Users\pc1\source\repos\caja_de_herramientas\caja_de_herramientas\bin\Debug\caja_de_herramientas.exe.config
+C:\Users\pc1\source\repos\caja_de_herramientas\caja_de_herramientas\bin\Debug\caja_de_herramientas.exe
+C:\Users\pc1\source\repos\caja_de_herramientas\caja_de_herramientas\bin\Debug\caja_de_herramientas.pdb
+C:\Users\pc1\source\repos\caja_de_herramientas\caja_de_herramientas\obj\Debug\caja_de_herramientas.csproj.AssemblyReference.cache
+C:\Users\pc1\source\repos\caja_de_herramientas\caja_de_herramientas\obj\Debug\caja_de_herramientas.Properties.Resources.resources
+C:\Users\pc1\source\repos\caja_de_herramientas\caja_de_herramientas\obj\Debug\caja_de_herramientas.csproj.GenerateResource.cache
+C:\Users\pc1\source\repos\caja_de_herramientas\caja_de_herramientas\obj\Debug\caja_de_herramientas.csproj.CoreCompileInputs.cache
+C:\Users\pc1\source\repos\caja_de_herramientas\caja_de_herramientas\obj\Debug\caja_de_herramientas.exe
+C:\Users\pc1\source\repos\caja_de_herramientas\caja_de_herramientas\obj\Debug\caja_de_herramientas.pdb
