@@ -21,7 +21,8 @@ namespace caja_de_herramientas.clases
             op_arr.editar_busqueda_multiple_edicion_profunda_arreglo(arreglo, "2|1|1", "5", "2°1°1|1|2°1°0", "10|10|10","1|1|0");
             */
 
-
+            
+            bas.inicio(new string[] { "~" });
 
         }
     }

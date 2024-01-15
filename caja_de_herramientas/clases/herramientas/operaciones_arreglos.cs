@@ -13,19 +13,119 @@ namespace caja_de_herramientas.clases.herramientas
 
         string[] G_caracteres_separacion = { "|", "°", "¬", "^", "~" };
 
-        public string[] agregar_registro_del_array(string[] arreglo, string registro)
-        {
-            string[] temp = new string[arreglo.Length + 1];
 
-            for (int i = 0; i < arreglo.Length; i++)
+        public string[] agregar_registro_del_array(string[] arreglo, string registro, string al_inicio = null)
+        {
+            if (arreglo == null)
             {
-                temp[i] = arreglo[i];
+                // Si el arreglo es null, se crea un nuevo arreglo con un solo elemento que es el registro proporcionado.
+                return new string[] { registro };
+            }
+            else
+            {
+                string[] temp = new string[arreglo.Length + 1];
+                if (al_inicio==null)
+                {
+                    for (int i = 0; i < arreglo.Length; i++)
+                    {
+                        temp[i] = arreglo[i];
+                    }
+
+                    temp[arreglo.Length] = registro;
+
+                }
+                else
+                {
+                    temp[0] = registro;
+                    for (int i = 0; i < arreglo.Length; i++)
+                    {
+                        temp[i+1] = arreglo[i];
+                    }
+
+                }
+
+                return temp;
             }
 
-            temp[arreglo.Length] = registro;
-
-            return temp;
+            
         }
+
+
+
+        public string[,] agregar_registro_del_array_bidimensional(string[,] arreglo, string registro, string[] caracter_separacion = null, string al_inicio = null)
+        {
+            if (caracter_separacion == null)
+            {
+                // Asignar el valor predeterminado si caracter_separacion es null
+                caracter_separacion = G_caracteres_separacion;
+            }
+
+            if (arreglo == null)
+            {
+                // Si el arreglo es null, crear un nuevo arreglo bidimensional con un solo elemento que es el registro proporcionado.
+
+                // Dividir el registro usando el carácter de separación
+                string[] partes = registro.Split(caracter_separacion[0][0]);
+
+                // Crear un nuevo arreglo bidimensional con una fila y la longitud de partes
+                string[,] temp = new string[1, partes.Length];
+
+                // Copiar los elementos del arreglo unidimensional al arreglo bidimensional
+                for (int i = 0; i < partes.Length; i++)
+                {
+                    temp[0, i] = partes[i];
+                }
+
+                return temp;
+            }
+            
+            else
+            {
+                int filas = arreglo.GetLength(0);
+                int columnas = arreglo.GetLength(1);
+
+                string[,] temp = new string[filas + 1, columnas];
+
+                if (al_inicio == null)
+                {
+                    for (int i = 0; i < filas; i++)
+                    {
+                        for (int j = 0; j < columnas; j++)
+                        {
+                            temp[i, j] = arreglo[i, j];
+                        }
+                    }
+
+                    // Dividir el nuevo registro usando el carácter de separación
+                    string[] partes = registro.Split(caracter_separacion[0][0]);
+
+                    // Agregar el nuevo registro en la última fila
+                    for (int j = 0; j < partes.Length; j++)
+                    {
+                        temp[filas, j] = partes[j];
+                    }
+                }
+                else
+                {
+                    // Agregar el nuevo registro en la primera fila
+                    temp[0, 0] = registro;
+
+                    for (int i = 0; i < filas; i++)
+                    {
+                        for (int j = 0; j < columnas; j++)
+                        {
+                            // Desplazar los elementos existentes hacia abajo
+                            temp[i + 1, j] = arreglo[i, j];
+                        }
+                    }
+                }
+
+                return temp;
+            }
+        }
+
+
+
         /*
         public string[][] agregar_arreglo_a_arreglo_de_arreglos(string[][] arreglo_de_arreglos, string[] nuevo_arreglo)
         {
@@ -54,6 +154,11 @@ namespace caja_de_herramientas.clases.herramientas
             temp[arreglo_de_arreglos.Length] = nuevo_arreglo;
             return temp;
         }
+
+
+        
+
+
 
 
         public string[] quitar_registro_del_array(string[] arreglo)
@@ -144,7 +249,7 @@ namespace caja_de_herramientas.clases.herramientas
 
 
 
-        public string editar_incr_string_funcion_recursiva(string texto, object columnas_a_recorrer, string info_a_sustituir, string edit_0_o_increm_1 = null,  string[] caracterSeparacion = null, string caracter_separacion_dif_a_texto = null)
+        public string editar_incr_string_funcion_recursiva(string texto, object columnas_a_recorrer, string info_a_sustituir, string edit_0_o_increm_1 = null, string[] caracterSeparacion = null, string caracter_separacion_dif_a_texto = null)
         {
             //string texto="0|1|2¬3°4¬5|6", object columnas_a_recorrer="2°1°1", string info_a_sustituir="10", string edit_0_o_increm_1 = "1",  string[] caracterSeparacion = null, string caracter_separacion_dif_a_texto = "°"
 
