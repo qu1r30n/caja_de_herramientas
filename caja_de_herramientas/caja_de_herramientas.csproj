@@ -46,7 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clases\enlase_a_herramienta.cs" />
+    <Compile Include="clases\herramientas\operaciones_textos.cs" />
+    <Compile Include="clases\mult.cs" />
+    <Compile Include="clases\poner_al_inicio_del_programa.cs" />
+    <Compile Include="clases\tienda.cs" />
     <Compile Include="clases\herramientas\operaciones_arreglos.cs" />
     <Compile Include="clases\herramientas\Tex_base.cs" />
     <Compile Include="Form1.cs">

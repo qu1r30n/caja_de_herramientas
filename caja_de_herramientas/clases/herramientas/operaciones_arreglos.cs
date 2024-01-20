@@ -11,7 +11,8 @@ namespace caja_de_herramientas.clases.herramientas
     class operaciones_arreglos
     {
 
-        string[] G_caracteres_separacion = { "|", "°", "¬", "^", "~" };
+        string[] G_caracter_separacion = { "|", "°", "¬", "^" };
+        public string G_separador_para_funciones_espesificas = "~";
 
 
         public string[] agregar_registro_del_array(string[] arreglo, string registro, string al_inicio = null)
@@ -24,7 +25,7 @@ namespace caja_de_herramientas.clases.herramientas
             else
             {
                 string[] temp = new string[arreglo.Length + 1];
-                if (al_inicio==null)
+                if (al_inicio == null)
                 {
                     for (int i = 0; i < arreglo.Length; i++)
                     {
@@ -39,7 +40,7 @@ namespace caja_de_herramientas.clases.herramientas
                     temp[0] = registro;
                     for (int i = 0; i < arreglo.Length; i++)
                     {
-                        temp[i+1] = arreglo[i];
+                        temp[i + 1] = arreglo[i];
                     }
 
                 }
@@ -47,17 +48,33 @@ namespace caja_de_herramientas.clases.herramientas
                 return temp;
             }
 
-            
+
         }
 
 
 
-        public string[,] agregar_registro_del_array_bidimensional(string[,] arreglo, string registro, string[] caracter_separacion = null, string al_inicio = null)
+        public string[,] agregar_registro_del_array_bidimensional(string[,] arreglo, string registro, object caracter_separacion_objeto = null, string al_inicio = null)
         {
-            if (caracter_separacion == null)
+            
+            string[] caracter_separacion = null;
+            if (caracter_separacion_objeto == null)
             {
-                // Asignar el valor predeterminado si caracter_separacion es null
-                caracter_separacion = G_caracteres_separacion;
+                caracter_separacion = G_caracter_separacion;
+            }
+            else
+            {
+                if (caracter_separacion_objeto is char)
+                {
+                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
+                }
+                if (caracter_separacion_objeto is string)
+                {
+                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
+                }
+                if (caracter_separacion_objeto is string[])
+                {
+                    caracter_separacion = (string[])caracter_separacion_objeto;
+                }
             }
 
             if (arreglo == null)
@@ -78,7 +95,7 @@ namespace caja_de_herramientas.clases.herramientas
 
                 return temp;
             }
-            
+
             else
             {
                 int filas = arreglo.GetLength(0);
@@ -156,8 +173,6 @@ namespace caja_de_herramientas.clases.herramientas
         }
 
 
-        
-
 
 
 
@@ -180,31 +195,48 @@ namespace caja_de_herramientas.clases.herramientas
             return temp;
         }
 
-        public string busqueda_profunda_arreglo(string[] areglo,string columnas_a_recorrer, string comparar,string columnas_a_retornar=null, string[] caracteres_separacion = null)
+        public string busqueda_profunda_arreglo(string[] areglo, string columnas_a_recorrer, string comparar, string columnas_a_retornar = null, object caracter_separacion_objeto = null)
         {
-            if (caracteres_separacion == null) 
+            string[] caracter_separacion = null;
+            if (caracter_separacion_objeto == null)
             {
-                caracteres_separacion = G_caracteres_separacion;
+                caracter_separacion = G_caracter_separacion;
+            }
+            else
+            {
+                if (caracter_separacion_objeto is char)
+                {
+                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
+                }
+                if (caracter_separacion_objeto is string)
+                {
+                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
+                }
+                if (caracter_separacion_objeto is string[])
+                {
+                    caracter_separacion = (string[])caracter_separacion_objeto;
+                }
             }
 
 
+
             string[] arr_col_rec = null;
-            //caracteres_separacion[0][0] el primer [0] es la celda y el segundo [0] es el caracter para no usar convert.tochar
-            arr_col_rec = columnas_a_recorrer.Split(caracteres_separacion[0][0]);
+            //caracter_separacion[0][0] el primer [0] es la celda y el segundo [0] es el caracter para no usar convert.tochar
+            arr_col_rec = columnas_a_recorrer.Split(caracter_separacion[0][0]);
 
             for (int i = 0; i < areglo.Length; i++)
             {
 
                 string tem_linea = areglo[i];
-                string[][] niveles_de_profundidad=null;
+                string[][] niveles_de_profundidad = null;
                 int j = 0;
                 do
                 {
 
-                    //caracteres_separacion[j][0] el primer [j] es la celda y el segundo [0] es el caracter para no usar convert.tochar
-                    niveles_de_profundidad = agregar_arreglo_a_arreglo_de_arreglos(niveles_de_profundidad, tem_linea.Split(caracteres_separacion[j][0]));
-                    tem_linea= niveles_de_profundidad[j][Convert.ToInt32(arr_col_rec[j])];
-                    
+                    //caracter_separacion[j][0] el primer [j] es la celda y el segundo [0] es el caracter para no usar convert.tochar
+                    niveles_de_profundidad = agregar_arreglo_a_arreglo_de_arreglos(niveles_de_profundidad, tem_linea.Split(caracter_separacion[j][0]));
+                    tem_linea = niveles_de_profundidad[j][Convert.ToInt32(arr_col_rec[j])];
+
                     j++;
                 } while (j < arr_col_rec.Length);
 
@@ -219,7 +251,7 @@ namespace caja_de_herramientas.clases.herramientas
                     else
                     {
 
-                        string[] info_a_recorrer = columnas_a_retornar.Split(caracteres_separacion[0][0]);
+                        string[] info_a_recorrer = columnas_a_retornar.Split(caracter_separacion[0][0]);
                         for (int l = 0; l < info_a_recorrer.Length; l++)
                         {
                             tem_linea_2 = info_a_recorrer[l];
@@ -228,20 +260,20 @@ namespace caja_de_herramientas.clases.herramientas
                             do
                             {
 
-                                //caracteres_separacion[k][0] el primer [k] es la celda y el segundo [0] es el caracter para no usar convert.tochar
-                                niveles_de_profundidad_2 = agregar_arreglo_a_arreglo_de_arreglos(niveles_de_profundidad_2, tem_linea_2.Split(caracteres_separacion[k][0]));
+                                //caracter_separacion[k][0] el primer [k] es la celda y el segundo [0] es el caracter para no usar convert.tochar
+                                niveles_de_profundidad_2 = agregar_arreglo_a_arreglo_de_arreglos(niveles_de_profundidad_2, tem_linea_2.Split(caracter_separacion[k][0]));
                                 tem_linea_2 = niveles_de_profundidad_2[k][Convert.ToInt32(arr_col_rec[k])];
 
                                 k++;
                             } while (k < arr_col_rec.Length);
-                            
+
                         }
 
                         return tem_linea_2;
                     }
-                    
+
                 }
-            
+
             }
             return null;
         }
@@ -249,23 +281,39 @@ namespace caja_de_herramientas.clases.herramientas
 
 
 
-        public string editar_incr_string_funcion_recursiva(string texto, object columnas_a_recorrer, string info_a_sustituir, string edit_0_o_increm_1 = null, string[] caracterSeparacion = null, string caracter_separacion_dif_a_texto = null)
+        public string editar_incr_string_funcion_recursiva(string texto, object columnas_a_recorrer, string info_a_sustituir, string edit_0_o_increm_1 = null, object caracter_separacion_objeto = null, string caracter_separacion_dif_a_texto = null)
         {
-            //string texto="0|1|2¬3°4¬5|6", object columnas_a_recorrer="2°1°1", string info_a_sustituir="10", string edit_0_o_increm_1 = "1",  string[] caracterSeparacion = null, string caracter_separacion_dif_a_texto = "°"
+            //string texto="0|1|2¬3°4¬5|6", object columnas_a_recorrer="2°1°1", string info_a_sustituir="10", string edit_0_o_increm_1 = "1",  string[] caracter_separacion = null, string caracter_separacion_dif_a_texto = "°"
 
             /*ejemplo puesto
-                    string[] indices_espliteado = indices_a_editar.Split(caracteres_separacion[0][0]);
-                    string[] info_editar_espliteado = info_editar.Split(caracteres_separacion[0][0]);
-                    string[] edit_0_o_increm_1_espliteado = edit_0_o_increm_1.Split(caracteres_separacion[0][0]);
+                    string[] indices_espliteado = indices_a_editar.Split(caracter_separacion[0][0]);
+                    string[] info_editar_espliteado = info_editar.Split(caracter_separacion[0][0]);
+                    string[] edit_0_o_increm_1_espliteado = edit_0_o_increm_1.Split(caracter_separacion[0][0]);
                     for (int k = 0; k < indices_espliteado.Length; k++)
                     {
                         areglo[i] = editar_incr_string_funcion_recursiva(areglo[i], indices_espliteado[k], info_editar_espliteado[k], edit_0_o_increm_1_espliteado[k], caracter_separacion_dif_a_texto:"°");
                     }
             
             */
-            if (caracterSeparacion == null)
+            string[] caracter_separacion = null;
+            if (caracter_separacion_objeto == null)
             {
-                caracterSeparacion = G_caracteres_separacion;
+                caracter_separacion = G_caracter_separacion;
+            }
+            else
+            {
+                if (caracter_separacion_objeto is char)
+                {
+                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
+                }
+                if (caracter_separacion_objeto is string)
+                {
+                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
+                }
+                if (caracter_separacion_objeto is string[])
+                {
+                    caracter_separacion = (string[])caracter_separacion_objeto;
+                }
             }
 
             string[] espliteado_columnas_recorrer = { };
@@ -273,29 +321,30 @@ namespace caja_de_herramientas.clases.herramientas
             //Sí es un string lo splitea Este normalmente es al inicio de la función 
             if (columnas_a_recorrer is string)
             {
-                if (caracter_separacion_dif_a_texto==null)
+                if (caracter_separacion_dif_a_texto == null)
                 {
-                    espliteado_columnas_recorrer = columnas_a_recorrer.ToString().Split(caracterSeparacion[0][0]);
+                    espliteado_columnas_recorrer = columnas_a_recorrer.ToString().Split(caracter_separacion[0][0]);
+                    
                 }
                 else
                 {
                     espliteado_columnas_recorrer = columnas_a_recorrer.ToString().Split(caracter_separacion_dif_a_texto[0]);
                 }
-                
+
             }
             else if (columnas_a_recorrer is string[] temp)
             {
 
                 espliteado_columnas_recorrer = temp;
             }
-            
-            string[] espliteado_texto = texto.Split(caracterSeparacion[0][0]);
+
+            string[] espliteado_texto = texto.Split(caracter_separacion[0][0]);
 
             //En esta parte Se inicia desde el segundo elemento y se guardan los caracteres y
             //las columnas para sí hay otro elemento En el arreglo múltiple 
             string texto_a_retornar = "";
 
-            string[] tem_array_caracter_separacion = caracterSeparacion;
+            string[] tem_array_caracter_separacion = caracter_separacion;
             if (espliteado_columnas_recorrer.Length > 0)
             {
                 string[] tem_array_col_recorrer = espliteado_columnas_recorrer;
@@ -303,16 +352,16 @@ namespace caja_de_herramientas.clases.herramientas
                 texto_a_retornar = espliteado_texto[Convert.ToInt32(tem_array_col_recorrer[0])];
 
                 tem_array_col_recorrer = new string[espliteado_columnas_recorrer.Length - 1];
-                tem_array_caracter_separacion = new string[caracterSeparacion.Length - 1];
+                tem_array_caracter_separacion = new string[caracter_separacion.Length - 1];
                 for (int i = 1; i < espliteado_columnas_recorrer.Length; i++)
                 {
 
                     tem_array_col_recorrer[i - 1] = espliteado_columnas_recorrer[i];
 
                 }
-                for (int i = 1; i < caracterSeparacion.Length; i++)
+                for (int i = 1; i < caracter_separacion.Length; i++)
                 {
-                    tem_array_caracter_separacion[i - 1] = caracterSeparacion[i];
+                    tem_array_caracter_separacion[i - 1] = caracter_separacion[i];
                 }
 
 
@@ -322,7 +371,7 @@ namespace caja_de_herramientas.clases.herramientas
             }
             else
             {
-                if (edit_0_o_increm_1=="1")
+                if (edit_0_o_increm_1 == "1")
                 {
                     espliteado_texto[0] = "" + (Convert.ToDouble(espliteado_texto[0]) + Convert.ToDouble(info_a_sustituir));
                 }
@@ -330,26 +379,42 @@ namespace caja_de_herramientas.clases.herramientas
                 {
                     espliteado_texto[0] = info_a_sustituir;
                 }
-                
+
             }
 
-            string retornar = string.Join(caracterSeparacion[0], espliteado_texto);
+            string retornar = string.Join(caracter_separacion[0], espliteado_texto);
             return retornar;
         }
 
-        
 
-        public string[] editar_busqueda_profunda_arreglo(string[] areglo, string columnas_a_recorrer, string comparar, object columnas_a_recorrer_editar, string info_a_sustituir, string[] caracteres_separacion = null)
+
+        public string[] editar_busqueda_profunda_arreglo(string[] areglo, string columnas_a_recorrer, string comparar, object columnas_a_recorrer_editar, string info_a_sustituir, object caracter_separacion_objeto = null)
         {
-            if (caracteres_separacion == null)
+            string[] caracter_separacion = null;
+            if (caracter_separacion_objeto == null)
             {
-                caracteres_separacion = G_caracteres_separacion;
+                caracter_separacion = G_caracter_separacion;
+            }
+            else
+            {
+                if (caracter_separacion_objeto is char)
+                {
+                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
+                }
+                if (caracter_separacion_objeto is string)
+                {
+                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
+                }
+                if (caracter_separacion_objeto is string[])
+                {
+                    caracter_separacion = (string[])caracter_separacion_objeto;
+                }
             }
 
 
             string[] arr_col_rec = null;
-            //caracteres_separacion[0][0] el primer [0] es la celda y el segundo [0] es el caracter para no usar convert.tochar
-            arr_col_rec = columnas_a_recorrer.Split(caracteres_separacion[0][0]);
+            //caracter_separacion[0][0] el primer [0] es la celda y el segundo [0] es el caracter para no usar convert.tochar
+            arr_col_rec = columnas_a_recorrer.Split(caracter_separacion[0][0]);
 
             for (int i = 0; i < areglo.Length; i++)
             {
@@ -360,8 +425,8 @@ namespace caja_de_herramientas.clases.herramientas
                 do
                 {
 
-                    //caracteres_separacion[j][0] el primer [j] es la celda y el segundo [0] es el caracter para no usar convert.tochar
-                    niveles_de_profundidad = agregar_arreglo_a_arreglo_de_arreglos(niveles_de_profundidad, tem_linea.Split(caracteres_separacion[j][0]));
+                    //caracter_separacion[j][0] el primer [j] es la celda y el segundo [0] es el caracter para no usar convert.tochar
+                    niveles_de_profundidad = agregar_arreglo_a_arreglo_de_arreglos(niveles_de_profundidad, tem_linea.Split(caracter_separacion[j][0]));
                     tem_linea = niveles_de_profundidad[j][Convert.ToInt32(arr_col_rec[j])];
 
                     j++;
@@ -380,18 +445,39 @@ namespace caja_de_herramientas.clases.herramientas
         }
 
 
-        public string editar_busqueda_multiple_edicion_profunda_arreglo(string[] areglo, string columnas_a_recorrer, string comparar, string indices_a_editar, string info_editar,string edit_0_o_increm_1=null, string[] caracteres_separacion = null)
+        public string editar_busqueda_multiple_edicion_profunda_arreglo(string[] areglo, string columnas_a_recorrer, string comparar, string indices_a_editar, string info_editar, string edit_0_o_increm_1 = null, object caracter_separacion_objeto = null, string caracter_separacion_para_busqueda_multiple_profuda = null)
         {
-            //editar_busqueda_multiple_edicion_profunda_arreglo(arreglo, "2|1|1", "5", "2°1°1|1|2°1°0", "10|10|10","1|1|0");
-            if (caracteres_separacion == null)
+            //editar_busqueda_multiple_edicion_profunda_arreglo(arreglo, "2|1|1", "5", "2|1|1~1~2|1|0", "10~10~10","1~1~0");
+            string[] caracter_separacion = null;
+            if (caracter_separacion_objeto == null)
             {
-                caracteres_separacion = G_caracteres_separacion;
+                caracter_separacion = G_caracter_separacion;
+            }
+            else
+            {
+                if (caracter_separacion_objeto is char)
+                {
+                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
+                }
+                if (caracter_separacion_objeto is string)
+                {
+                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
+                }
+                if (caracter_separacion_objeto is string[])
+                {
+                    caracter_separacion = (string[])caracter_separacion_objeto;
+                }
+            }
+
+            if (caracter_separacion_para_busqueda_multiple_profuda == null)
+            {
+                caracter_separacion_para_busqueda_multiple_profuda = G_separador_para_funciones_espesificas;
             }
 
 
-            string[] arr_col_rec = null;
-            //caracteres_separacion[0][0] el primer [0] es la celda y el segundo [0] es el caracter para no usar convert.tochar
-            arr_col_rec = columnas_a_recorrer.Split(caracteres_separacion[0][0]);
+
+            //caracter_separacion[0][0] el primer [0] es la celda y el segundo [0] es el caracter para no usar convert.tochar
+            string[] arr_col_rec = columnas_a_recorrer.Split(caracter_separacion[0][0]);
 
             for (int i = 0; i < areglo.Length; i++)
             {
@@ -402,8 +488,8 @@ namespace caja_de_herramientas.clases.herramientas
                 do
                 {
 
-                    //caracteres_separacion[j][0] el primer [j] es la celda y el segundo [0] es el caracter para no usar convert.tochar
-                    niveles_de_profundidad = agregar_arreglo_a_arreglo_de_arreglos(niveles_de_profundidad, tem_linea.Split(caracteres_separacion[j][0]));
+                    //caracter_separacion[j][0] el primer [j] es la celda y el segundo [0] es el caracter para no usar convert.tochar
+                    niveles_de_profundidad = agregar_arreglo_a_arreglo_de_arreglos(niveles_de_profundidad, tem_linea.Split(caracter_separacion[j][0]));
                     tem_linea = niveles_de_profundidad[j][Convert.ToInt32(arr_col_rec[j])];
 
                     j++;
@@ -413,32 +499,52 @@ namespace caja_de_herramientas.clases.herramientas
                 //comparacion--------------------------------------------------------------------------
                 if (tem_linea == comparar)
                 {
-                    
-                        
-                    string[] indices_espliteado = indices_a_editar.Split(caracteres_separacion[0][0]);
-                    string[] info_editar_espliteado = info_editar.Split(caracteres_separacion[0][0]);
-                    string[] edit_0_o_increm_1_espliteado = edit_0_o_increm_1.Split(caracteres_separacion[0][0]);
+
+
+                    string[] indices_espliteado = indices_a_editar.Split(caracter_separacion_para_busqueda_multiple_profuda[0]);
+                    string[] info_editar_espliteado = info_editar.Split(caracter_separacion_para_busqueda_multiple_profuda[0]);
+                    string[] edit_0_o_increm_1_espliteado = edit_0_o_increm_1.Split(caracter_separacion_para_busqueda_multiple_profuda[0]);
                     for (int k = 0; k < indices_espliteado.Length; k++)
                     {
-                        areglo[i] = editar_incr_string_funcion_recursiva(areglo[i], indices_espliteado[k], info_editar_espliteado[k], edit_0_o_increm_1_espliteado[k], caracter_separacion_dif_a_texto:"°");
+                        areglo[i] = editar_incr_string_funcion_recursiva(areglo[i], indices_espliteado[k], info_editar_espliteado[k], edit_0_o_increm_1_espliteado[k], caracter_separacion_dif_a_texto: caracter_separacion_para_busqueda_multiple_profuda);
                     }
 
                     return areglo[i];
                 }
 
             }
-            return "no_se_encontro";
+
+
+            return null;
+
         }
 
-        public string si_no_existe_agrega_string(string[] areglo, string columnas_a_recorrer, string comparar, string texto_a_agregar, string[] caracteres_separacion = null)
+        public string si_no_existe_agrega_string(string[] areglo, string columnas_a_recorrer, string comparar, string texto_a_agregar, object caracter_separacion_objeto = null)
         {
-            if (caracteres_separacion == null)
+            string[] caracter_separacion = null;
+            if (caracter_separacion_objeto == null)
             {
-                caracteres_separacion = G_caracteres_separacion;
+                caracter_separacion = G_caracter_separacion;
+            }
+            else
+            {
+                if (caracter_separacion_objeto is char)
+                {
+                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
+                }
+                if (caracter_separacion_objeto is string)
+                {
+                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
+                }
+                if (caracter_separacion_objeto is string[])
+                {
+                    caracter_separacion = (string[])caracter_separacion_objeto;
+                }
             }
 
-            string info_encontrada=busqueda_profunda_arreglo(areglo, columnas_a_recorrer, comparar);
-            if (info_encontrada!=null)
+
+            string info_encontrada = busqueda_profunda_arreglo(areglo, columnas_a_recorrer, comparar);
+            if (info_encontrada != null)
             {
                 return info_encontrada;
             }
@@ -449,5 +555,81 @@ namespace caja_de_herramientas.clases.herramientas
             }
 
         }
+
+        public string[] busqueda_multiple_edicion_multiple_arreglo_profunda(string[] areglo, string columnas_a_recorrer, string comparar, string indices_a_editar, string info_editar, string edit_0_o_increm_1 = null, object caracter_separacion_objeto = null, string caracter_separacion_para_busqueda_multiple_profuda = null)
+        {
+            //editar_busqueda_multiple_edicion_profunda_arreglo(arreglo, "2|1|1~2|1|1~2|1|1", "5~5~5", "2|1|1~1~2|1|0", "10~10~10","1~1~0");
+            string[] caracter_separacion = null;
+            if (caracter_separacion_objeto == null)
+            {
+                caracter_separacion = G_caracter_separacion;
+            }
+            else
+            {
+                if (caracter_separacion_objeto is char)
+                {
+                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
+                }
+                if (caracter_separacion_objeto is string)
+                {
+                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
+                }
+                if (caracter_separacion_objeto is string[])
+                {
+                    caracter_separacion = (string[])caracter_separacion_objeto;
+                }
+            }
+
+            if (caracter_separacion_para_busqueda_multiple_profuda == null)
+            {
+                caracter_separacion_para_busqueda_multiple_profuda = G_separador_para_funciones_espesificas;
+            }
+            string[] comparar_espliteado = comparar.Split(caracter_separacion_para_busqueda_multiple_profuda[0]);
+
+            string[] arr_column_a_recorrer = columnas_a_recorrer.Split(caracter_separacion_para_busqueda_multiple_profuda[0]);
+            for (int j = 0; j < arr_column_a_recorrer.Length; j++)
+            {
+                //caracter_separacion[0][0] el primer [0] es la celda y el segundo [0] es el caracter para no usar convert.tochar
+                string[] col_rec_espliteado = arr_column_a_recorrer[j].Split(caracter_separacion[0][0]);
+
+                for (int i = 0; i < areglo.Length; i++)
+                {
+
+                    string tem_linea = areglo[i];
+                    string[][] niveles_de_profundidad = null;
+                    int h = 0;
+                    do
+                    {
+
+                        //caracter_separacion[h][0] el primer [h] es la celda y el segundo [0] es el caracter para no usar convert.tochar
+                        niveles_de_profundidad = agregar_arreglo_a_arreglo_de_arreglos(niveles_de_profundidad, tem_linea.Split(caracter_separacion[h][0]));
+                        tem_linea = niveles_de_profundidad[h][Convert.ToInt32(col_rec_espliteado[h])];
+
+                        h++;
+                    } while (h < col_rec_espliteado.Length);
+
+                    string tem_linea_2 = "";
+                    //comparacion--------------------------------------------------------------------------
+                    
+                    if (tem_linea == comparar_espliteado[i])
+                    {
+
+                        string[] indices_espliteado = indices_a_editar.Split(caracter_separacion_para_busqueda_multiple_profuda[0]);
+                        string[] info_editar_espliteado = info_editar.Split(caracter_separacion_para_busqueda_multiple_profuda[0]);
+                        string[] edit_0_o_increm_1_espliteado = edit_0_o_increm_1.Split(caracter_separacion_para_busqueda_multiple_profuda[0]);
+                        for (int k = 0; k < indices_espliteado.Length; k++)
+                        {
+                            areglo[i] = editar_incr_string_funcion_recursiva(areglo[i], indices_espliteado[k], info_editar_espliteado[k], edit_0_o_increm_1_espliteado[k]);
+                        }
+
+                        return areglo;
+                    }
+
+                }
+            }
+
+            return null;
+        } 
+
     }
 }

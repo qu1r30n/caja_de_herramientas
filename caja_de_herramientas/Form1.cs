@@ -18,9 +18,10 @@ namespace caja_de_herramientas
         {
             InitializeComponent();
 
-            enlase_a_herramienta enlase_herram = new enlase_a_herramienta();
+            poner_al_inicio_del_programa comienso = new poner_al_inicio_del_programa();
+            comienso.inicio();
 
-            enlase_herram.enl_a_editar();
+
         }
     }
 }
