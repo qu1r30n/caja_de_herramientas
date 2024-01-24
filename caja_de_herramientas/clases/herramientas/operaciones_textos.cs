@@ -12,68 +12,64 @@ namespace caja_de_herramientas.clases.herramientas
     {
         public string[] G_caracter_separacion = { "|", "°", "¬", "^" };
         public string G_separador_para_funciones_espesificas = "~";
+        public string G_separador_para_funciones_espesificas2 = "§";
 
-        public string joineada_paraesida(string[] arreglo, object caracter_separacion_objeto = null, int restar_cuantas_ultimas_celdas = 0)
+        var_fun_GG var_GG = new var_fun_GG();
+
+        public string joineada_paraesida_y_quitador_de_extremos_del_string(object arreglo_objeto, object caracter_separacion_objeto = null, int restar_cuantas_ultimas_o_primeras_celdas = 0,bool restar_primera_celda=false)
         {
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
+            string[] arreglo=null;
+
+            if (arreglo_objeto is string)
             {
-                caracter_separacion = G_caracter_separacion;
+                arreglo = arreglo_objeto.ToString().Split(caracter_separacion[0][0]);
+            }
+            else if (arreglo_objeto is string[])
+            {
+                arreglo = (string[])arreglo_objeto;
+            }
+            
+
+            string a_retornar = "";
+            
+            if (restar_primera_celda)
+            {
+                for (int i = restar_cuantas_ultimas_o_primeras_celdas; i < arreglo.Length; i++)
+                {
+                    if (i < arreglo.Length - 1)
+                    {
+                        a_retornar = a_retornar + arreglo[i] + caracter_separacion[0];
+                    }
+                    else
+                    {
+                        a_retornar = a_retornar + arreglo[i];
+                    }
+                }
+
             }
             else
             {
-                if (caracter_separacion_objeto is char)
+                int cantidad_celdas_a_retornar_del_arreglo = arreglo.Length - restar_cuantas_ultimas_o_primeras_celdas;
+                for (int i = 0; i < cantidad_celdas_a_retornar_del_arreglo; i++)
                 {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
-
-            string a_retornar = "";
-            int cantidad_celdas_a_retornar_del_arreglo = arreglo.Length - restar_cuantas_ultimas_celdas;
-            for (int i = 0; i < cantidad_celdas_a_retornar_del_arreglo; i++)
-            {
-                if (i < cantidad_celdas_a_retornar_del_arreglo - 1)
-                {
-                    a_retornar = a_retornar + arreglo[i] + caracter_separacion[0];
-                }
-                else
-                {
-                    a_retornar = a_retornar + arreglo[i];
+                    if (i < cantidad_celdas_a_retornar_del_arreglo - 1)
+                    {
+                        a_retornar = a_retornar + arreglo[i] + caracter_separacion[0];
+                    }
+                    else
+                    {
+                        a_retornar = a_retornar + arreglo[i];
+                    }
                 }
             }
+            
             return a_retornar;
         }
 
         public string Trimend_paresido(string texto, object caracter_separacion_objeto = null)
         {
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
-            {
-                caracter_separacion = G_caracter_separacion;
-            }
-            else
-            {
-                if (caracter_separacion_objeto is char)
-                {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
 
             string texto_editado = "";
             string[] texto_spliteado = texto.Split(caracter_separacion[0][0]);

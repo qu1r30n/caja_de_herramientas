@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clases\herramientas\operaciones_textos.cs" />
+    <Compile Include="clases\herramientas\var_fun_GG.cs" />
     <Compile Include="clases\mult.cs" />
     <Compile Include="clases\poner_al_inicio_del_programa.cs" />
     <Compile Include="clases\tienda.cs" />

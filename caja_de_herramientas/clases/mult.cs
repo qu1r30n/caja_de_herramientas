@@ -12,34 +12,17 @@ namespace caja_de_herramientas.clases
         Tex_base bas = new Tex_base();
         operaciones_arreglos op_arreglos = new operaciones_arreglos();
         operaciones_textos op_textos = new operaciones_textos();
+        var_fun_GG var_GG = new var_fun_GG();
 
-        
+        int G_configuracion = var_fun_GG.GG_indice_donde_comensar;
+
+        public string G_sep_fun_esp = var_fun_GG.GG_separador_para_funciones_espesificas;
+        public string G_sep_fun_esp2 = var_fun_GG.GG_separador_para_funciones_espesificas2;
 
         public void registro_simple(string direccion, string id_encargado_simple, string tabla_simple, string[] datos, double dinero_registro = 0, object caracter_separacion_objeto = null, bool regis=true)
         {
 
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
-            {
-                caracter_separacion = bas.G_caracter_separacion;
-            }
-            else
-            {
-                if (caracter_separacion_objeto is char)
-                {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(bas.G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
-
-
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
 
             string datos_usuario = "";
             for (int i = 0; i < datos.Length; i++)
@@ -66,12 +49,12 @@ namespace caja_de_herramientas.clases
 
                 string[] direccion_espliteada = direccion.Split(parametro2);//spliteamos la direccion
 
-                string carpetas = op_textos.joineada_paraesida(direccion_espliteada, "\\", 1);
+                string carpetas = op_textos.joineada_paraesida_y_quitador_de_extremos_del_string(direccion_espliteada, "\\", 2);
 
                 DateTime fecha_hora = DateTime.Now;
                 string año_mes_dia = fecha_hora.ToString("yyyyMMdd");
-                string dir = carpetas + año_mes_dia + "registro_simple_mov.txt";
-                bas.Crear_archivo_y_directorio(dir, "registro_simple|dir_tabla|id_usuario|datos_usuario|dinero_registro|id_encargado_simple|");
+                string dir = carpetas + "\\reg\\" + año_mes_dia + "registro_simple_mov.txt";
+                bas.Crear_archivo_y_directorio(dir, "registro_simple|dir_tabla|id_usuario|datos_usuario|dinero_registro|id_encargado_simple|", leer_y_agrega_al_arreglo: false);
                 string info_movimiento = "registro_simple" + caracter_separacion [0] + direccion + caracter_separacion [0] + cantidad_de_registros + caracter_separacion [0] + datos_usuario + caracter_separacion [0] + dinero_registro + caracter_separacion [0] + id_encargado_simple + caracter_separacion [0];
                 bas.Agregar_a_archivo_sin_arreglo(dir, info_movimiento);
             }
@@ -79,26 +62,7 @@ namespace caja_de_herramientas.clases
 
         public void registro_complejo(string direccion, string id_encargado_simple, string tabla_simple,string id_encargado_complejo, string tabla_complejo, string[] datos, double dinero_registro = 0, object caracter_separacion_objeto = null, bool regis=true)
         {
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
-            {
-                caracter_separacion = bas.G_caracter_separacion;
-            }
-            else
-            {
-                if (caracter_separacion_objeto is char)
-                {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(bas.G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
 
 
 
@@ -121,7 +85,12 @@ namespace caja_de_herramientas.clases
             //                      0_id_usuario                  |       1_id_patrocinador_complejo|                 2_tabla_patrocinador_complejo           |               3_id_encargado_simple           |       4_tabla_encargado_simple    |                       5_diner                 |                 6_pago_directo    |            7_pago_indirecto     |                      8_datos                  |        9_encargados     |
             string info_a_agregar = cantidad_de_registros + caracter_separacion [0] + id_encargado_complejo + caracter_separacion [0] + tabla_complejo + caracter_separacion [0] + id_encargado_simple + caracter_separacion [0] + tabla_simple + caracter_separacion [0] + dinero_registro + caracter_separacion [0] + "0" + caracter_separacion [0] + "0" + caracter_separacion [0] + datos_usuario + caracter_separacion [0] + "" + caracter_separacion [0];
             
+            
+            
             bas.Agregar(direccion, info_a_agregar);
+
+
+
 
             if (regis == true)
             {
@@ -129,182 +98,232 @@ namespace caja_de_herramientas.clases
 
                 string[] direccion_espliteada = direccion.Split(parametro2);//spliteamos la direccion
 
-                string carpetas = op_textos.joineada_paraesida(direccion_espliteada, "\\", 1);
+                string carpetas = op_textos.joineada_paraesida_y_quitador_de_extremos_del_string(direccion_espliteada, "\\", 2);
 
                 DateTime fecha_hora = DateTime.Now;
                 string año_mes_dia = fecha_hora.ToString("yyyyMMdd");
-                string dir = carpetas + año_mes_dia + "registro_simple_mov.txt";
-                bas.Crear_archivo_y_directorio(dir, "registro_simple|dir_tabla|id_usuario|datos_usuario|dinero_registro|id_encargado_simple|");
+                string dir = carpetas + "\\reg\\" + año_mes_dia + "registro_simple_mov.txt";
+                bas.Crear_archivo_y_directorio(dir, "registro_simple|dir_tabla|id_usuario|datos_usuario|dinero_registro|id_encargado_simple|", leer_y_agrega_al_arreglo: false);
                 string info_movimiento = "registro_complejo" + caracter_separacion [0] + direccion + caracter_separacion [0] + cantidad_de_registros + caracter_separacion [0] + datos_usuario + caracter_separacion [0] + dinero_registro + caracter_separacion [0] + id_encargado_simple + caracter_separacion [0] + id_encargado_complejo + caracter_separacion [0];
                 bas.Agregar_a_archivo_sin_arreglo(dir, info_movimiento);
             }
         }
 
 
-        public void entrada_dinero_simple_metodo_sin_lista_de_patrocinadores(string direccion, string id_usuario, string cantidad_dinero_string,string porsentage_comision_por_venta=null, string porsentajes_de_comision_encargados_simp = null, object caracter_separacion_objeto = null, bool regis = true)
-        {
 
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
+        public void entrada_dinero_simple_y_complejo(string direccion_enc_simple, string id_usuario_simple, string cantidad_dinero_string, string direccion_enc_complejo = null, string porsentage_comision_por_venta = null, string porsentajes_de_comision_encargados_simp = null, string porsentajes_de_comision_encargados_complejo = null, object caracter_separacion_objeto = null, bool regis = true)
+        {
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
+            string[] fila_espliteada = bas.seleccionar(direccion_enc_simple, 0, id_usuario_simple).Split(caracter_separacion[0][0]);
+            string textos_a_repetir = "0" + caracter_separacion[0] + "7" + caracter_separacion[0] + "1";
+            string[,] a_pagar = null;
+            
+            string[] res_comp = null;
+            //simple-----------------------------------------------------------------------------------------------------------------------
+            string[] porcentage_simple_esp = Tex_base.GG_base_arreglo_de_arreglos[3][2].Split(caracter_separacion[0][0]);
+            string enc_simples = extraer_patrosinadores_funcion_recursiva(direccion_enc_simple, 0, id_usuario_simple, 3, porcentage_simple_esp.Length, G_sep_fun_esp);
+            string[] acum_simple = acumulador_de_strings(textos_a_repetir, porcentage_simple_esp.Length, caracter_separacion_devolvera_2: G_sep_fun_esp);
+
+
+            //complejo---------------------------------------------------------------------------------------------------------------------------
+            
+            if (direccion_enc_complejo!=null)
             {
-                caracter_separacion = bas.G_caracter_separacion;
+                string[] porcentaje_complejo_esp = Tex_base.GG_base_arreglo_de_arreglos[3][3].Split(caracter_separacion[0][0]);
+                string enc_complejos = extraer_patrosinadores_funcion_recursiva(direccion_enc_complejo, 0, fila_espliteada[3], 3, porcentaje_complejo_esp.Length, G_sep_fun_esp);
+                string[] acum_complejo = acumulador_de_strings(textos_a_repetir, porcentaje_complejo_esp.Length, caracter_separacion_devolvera_2: G_sep_fun_esp);
+
+                a_pagar = calc_din_por_enc_y_total(enc_simples, cantidad_dinero_string, enc_complejos, car_sep_para_retornar: G_sep_fun_esp);
+                res_comp = op_arreglos.busqueda_multiple_edicion_multiple_arreglo_profunda(Tex_base.GG_base_arreglo_de_arreglos[2], acum_complejo[0], enc_complejos, acum_complejo[1], a_pagar[0, 1], acum_complejo[2], caracter_separacion_para_busqueda_multiple_profuda: G_sep_fun_esp);
+                bas.cambiar_archivo_con_arreglo(direccion_enc_complejo, res_comp);
             }
             else
             {
-                if (caracter_separacion_objeto is char)
-                {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(bas.G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
-            int indice=Convert.ToInt32(bas.sacar_indice_del_arreglo_de_direccion("inf\\sismul2\\porcentajes\\porcentajes.txt"));
-            if (porsentajes_de_comision_encargados_simp == null)
-            {
+                a_pagar = calc_din_por_enc_y_total(enc_simples, cantidad_dinero_string, null, car_sep_para_retornar: G_sep_fun_esp);
                 
             }
-            double dinero_double = Convert.ToDouble(cantidad_dinero_string);
-            int indice_de_base = Convert.ToInt32(bas.sacar_indice_del_arreglo_de_direccion(direccion));
-            string[] porcentage_de_encargados_simp_esptli = porsentajes_de_comision_encargados_simp.Split(caracter_separacion [0][0]);
-
-            string pagos_a_hacer = "";
-            string columnas_usuarios_para_comparar = "";
-            string columnas_para_editar = "";
-            string codigo_1_para_incrementar_0_para_editar = "";
-            //aqui se saldra el dinero que se les tiene que dar
-            for (int i = 0; i < porcentage_de_encargados_simp_esptli.Length; i++)
-            {
-                pagos_a_hacer = (dinero_double * Convert.ToDouble(porcentage_de_encargados_simp_esptli[i])/100) + bas.G_separador_para_funciones_espesificas;
-                columnas_usuarios_para_comparar = columnas_usuarios_para_comparar + "0" + bas.G_separador_para_funciones_espesificas;
-                columnas_para_editar = columnas_para_editar + "7" + bas.G_separador_para_funciones_espesificas;
-                codigo_1_para_incrementar_0_para_editar = codigo_1_para_incrementar_0_para_editar + "1" + bas.G_separador_para_funciones_espesificas;
-            }
-            //aqui agrega el pago del usuario
-            pagos_a_hacer = (dinero_double * (Convert.ToDouble(porsentage_comision_por_venta) / 100)) + bas.G_separador_para_funciones_espesificas + pagos_a_hacer;
-            string patroccinadores = extraer_patrosinadores_funcion_recursiva(direccion, 0, id_usuario, 3, porcentage_de_encargados_simp_esptli.Length, bas.G_separador_para_funciones_espesificas);
-            patroccinadores = id_usuario + bas.G_separador_para_funciones_espesificas + patroccinadores;
-
-            columnas_usuarios_para_comparar = op_textos.Trimend_paresido(columnas_usuarios_para_comparar, bas.G_separador_para_funciones_espesificas);
-            columnas_para_editar = op_textos.Trimend_paresido(columnas_para_editar, bas.G_separador_para_funciones_espesificas);
-            patroccinadores = op_textos.Trimend_paresido(patroccinadores, bas.G_separador_para_funciones_espesificas);
-            pagos_a_hacer = op_textos.Trimend_paresido(pagos_a_hacer, bas.G_separador_para_funciones_espesificas);
-            codigo_1_para_incrementar_0_para_editar = op_textos.Trimend_paresido(codigo_1_para_incrementar_0_para_editar, bas.G_separador_para_funciones_espesificas);
-
-            op_arreglos.busqueda_multiple_edicion_multiple_arreglo_profunda(Tex_base.GG_base_arreglo_de_arreglos[indice_de_base],columnas_usuarios_para_comparar, patroccinadores, columnas_para_editar, pagos_a_hacer, codigo_1_para_incrementar_0_para_editar);
-            //bas.Editar_o_incr_espesifico(direccion,0, id_usuario)
             
-            //op_arreglos.arreg
-            //registro de movimientos
+            string[] res_simp = op_arreglos.busqueda_multiple_edicion_multiple_arreglo_profunda(Tex_base.GG_base_arreglo_de_arreglos[1], acum_simple[0], enc_simples, acum_simple[1], a_pagar[0, 0], acum_simple[2], caracter_separacion_para_busqueda_multiple_profuda: G_sep_fun_esp);
+            bas.cambiar_archivo_con_arreglo(direccion_enc_simple, res_simp);
+            
+            if (porsentage_comision_por_venta != null)
+            {
+                string cant_incr = "" + (Convert.ToDouble(porsentage_comision_por_venta) / 100) * Convert.ToDouble(cantidad_dinero_string);
+                bas.Editar_o_incr_espesifico(direccion_enc_simple, 0, id_usuario_simple, "7", cant_incr, "1");
+            }
+
             if (regis == true)
             {
-                char[] parametro2 = { '/', '\\' };//estos seran los parametros de separacion de el split
 
-                string[] direccion_espliteada = direccion.Split(parametro2);//spliteamos la direccion
 
-                string carpetas = op_textos.joineada_paraesida(direccion_espliteada, "\\", 1);
+                //string datos = "entrada_de_dinero_simple" + G_sep_fun_esp + " id_usuario:" + id_usuario_simple + caracter_separacion[0] + "dinero_introducido:" + cantidad_dinero_string + caracter_separacion[0] + "encargados_simples: " + encargados_simples + cantidad_dinero_string + caracter_separacion[0] + "encargados complejos: " + encargados_complejos;
+                //var_GG.GG_registros(direccion_enc_simple, datos);
 
-                DateTime fecha_hora = DateTime.Now;
-                string año_mes_dia = fecha_hora.ToString("yyyyMMdd");
-                string dir = carpetas + año_mes_dia + "ent_din_simp_mov.txt";
-                bas.Crear_archivo_y_directorio(dir);
-                string info_movimiento = "ent_din_simp" + caracter_separacion [0] + direccion + caracter_separacion [0] + id_usuario + caracter_separacion [0] + cantidad_dinero_string + caracter_separacion [0] + porsentajes_de_comision_encargados_simp + caracter_separacion [0];
-                bas.Agregar_a_archivo_sin_arreglo(dir, info_movimiento);
+
             }
-
         }
 
-        public void entrada_dinero_complejo_metodo_sin_lista_de_patrocinadores(string direccion_enc_simple, string direccion_enc_complejo, string id_usuario_simple, string cantidad_dinero_string, string porsentage_comision_por_venta = null, string porsentajes_de_comision_encargados_simp = null, string porsentajes_de_comision_encargados_complejo = null, object caracter_separacion_objeto = null, bool regis = true)
+        public string extraer_patrosinadores_funcion_recursiva(string direccion, int columna_a_comparar_usuario, string id_comparar_usuario, int columna_patrocinadores, int cantidad_patrocinadores_a_extraer, string car_sep_para_retornar = null, object caracter_separacion_objeto = null,bool no_cambiar=true)
         {
-
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
-            {
-                caracter_separacion = bas.G_caracter_separacion;
-            }
-            else
-            {
-                if (caracter_separacion_objeto is char)
-                {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(bas.G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
-
-
-            string[] fila_espliteada=bas.seleccionar(direccion_enc_simple, 0, id_usuario_simple).Split(caracter_separacion[0][0]);
-            //entrada_dinero_simple_metodo_sin_lista_de_patrocinadores(direccion_enc_simple,id_usuario_simple,cantidad_dinero_string,);
-            //entrada_dinero_simple_metodo_sin_lista_de_patrocinadores(direccion_enc_complejo,);
-
-        }
-
-        public string extraer_patrosinadores_funcion_recursiva(string direccion, int columna_a_comparar_usuario, string id_comparar_usuario, int columna_patrocinadores, int cantidad_patrocinadores_a_extraer, string car_sep_para_retornar = null, object caracter_separacion_objeto = null)
-        {
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
-            {
-                caracter_separacion = bas.G_caracter_separacion;
-            }
-            else
-            {
-                if (caracter_separacion_objeto is char)
-                {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(bas.G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
-
+            
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
 
             int indice_de_base =Convert.ToInt32(bas.sacar_indice_del_arreglo_de_direccion(direccion));
 
             string ids_pat_a_retornar = null;
             for (int j = 0; j < cantidad_patrocinadores_a_extraer; j++)
             {
-                for (int i = 0; i < Tex_base.GG_base_arreglo_de_arreglos[indice_de_base].Length; i++)
+                for (int i = G_configuracion; i < Tex_base.GG_base_arreglo_de_arreglos[indice_de_base].Length; i++)
                 {
                     string[] fila_espliteada = Tex_base.GG_base_arreglo_de_arreglos[indice_de_base][i].Split(caracter_separacion [0][0]);
                     if (fila_espliteada[columna_a_comparar_usuario] == id_comparar_usuario)
                     {
-                        if (cantidad_patrocinadores_a_extraer>0)
+                        if (cantidad_patrocinadores_a_extraer > 0)
                         {
                             //que caracter se usara para separar los patrocinadores
-                            if (car_sep_para_retornar==null)
+                            if (car_sep_para_retornar == null)
                             {
-                                ids_pat_a_retornar = ids_pat_a_retornar + extraer_patrosinadores_funcion_recursiva(direccion, columna_a_comparar_usuario, fila_espliteada[columna_patrocinadores], columna_patrocinadores, cantidad_patrocinadores_a_extraer - 1) + caracter_separacion [0];
+                                string temp = extraer_patrosinadores_funcion_recursiva(direccion, columna_a_comparar_usuario, fila_espliteada[columna_patrocinadores], columna_patrocinadores, cantidad_patrocinadores_a_extraer - 1, car_sep_para_retornar,no_cambiar:false);
+                                if (temp == null)
+                                {
+                                    ids_pat_a_retornar = fila_espliteada[columna_patrocinadores] + temp;
+                                }
+                                else
+                                {
+                                    ids_pat_a_retornar = fila_espliteada[columna_patrocinadores] + caracter_separacion[0] + temp;
+                                }
+
+
                             }
                             else
                             {
-                                ids_pat_a_retornar = ids_pat_a_retornar + extraer_patrosinadores_funcion_recursiva(direccion, columna_a_comparar_usuario, fila_espliteada[columna_patrocinadores], columna_patrocinadores, cantidad_patrocinadores_a_extraer - 1) + car_sep_para_retornar;
+                                string temp = extraer_patrosinadores_funcion_recursiva(direccion, columna_a_comparar_usuario, fila_espliteada[columna_patrocinadores], columna_patrocinadores, cantidad_patrocinadores_a_extraer - 1, car_sep_para_retornar, no_cambiar: false);
+                                if (temp == null)
+                                {
+                                    ids_pat_a_retornar = fila_espliteada[columna_patrocinadores] + temp;
+                                }
+                                else
+                                {
+                                    ids_pat_a_retornar = fila_espliteada[columna_patrocinadores] + car_sep_para_retornar + temp;
+                                }
+
                             }
-                            break;
+                            return ids_pat_a_retornar;
                         }
-                        
                     }
                 }
             }
             return ids_pat_a_retornar;
         }
 
-        
+        public string[,] calc_din_por_enc_y_total(string encargados_simple, string dinero, string encargados_complejo = null, string porsentajes_de_comision_encargados_simp = null, string porsentajes_de_comision_encargados_complejo = null, string comision_venta_dir_compleja=null, string car_sep_para_retornar = null, object caracter_separacion_objeto = null)
+        {
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
+
+            if (comision_venta_dir_compleja == null)
+            {
+                comision_venta_dir_compleja = Tex_base.GG_base_arreglo_de_arreglos[3][4];
+            }
+
+            if (porsentajes_de_comision_encargados_simp == null)
+            {
+                porsentajes_de_comision_encargados_simp = Tex_base.GG_base_arreglo_de_arreglos[3][2];
+            }
+            if (porsentajes_de_comision_encargados_complejo == null)
+            {
+                porsentajes_de_comision_encargados_complejo = Tex_base.GG_base_arreglo_de_arreglos[3][3];
+            }
+            
+
+            string[] porsentajes_de_comision_encargados_simp_ESPLITEADO = porsentajes_de_comision_encargados_simp.Split(caracter_separacion[0][0]);
+            string[] porsentajes_de_comision_encargados_complejo_ESPLITEADO = porsentajes_de_comision_encargados_complejo.Split(caracter_separacion[0][0]);
+
+
+
+            string info_a_devolver = null;
+            double total_acumulado = 0;
+
+            string[,] arreglo_bidimencional = null;
+            double dinero_a_devolver_a_enc_complejos;
+            for (int i = 0; i < porsentajes_de_comision_encargados_simp_ESPLITEADO.Length; i++)
+            {
+
+                double dinero_a_devolver = (Convert.ToDouble(porsentajes_de_comision_encargados_simp_ESPLITEADO[i]) / 100) * Convert.ToDouble(dinero);
+
+                if (i < porsentajes_de_comision_encargados_simp_ESPLITEADO.Length - 1)
+                {
+
+                    info_a_devolver = info_a_devolver + dinero_a_devolver + car_sep_para_retornar;
+                }
+                else
+                {
+                    info_a_devolver = info_a_devolver + dinero_a_devolver + "";
+                }
+                total_acumulado = total_acumulado + dinero_a_devolver;
+            }
+
+
+
+            if (encargados_complejo != null && comision_venta_dir_compleja!=null) 
+            {
+                info_a_devolver = info_a_devolver + G_sep_fun_esp2;
+
+                for (int i = 0; i < porsentajes_de_comision_encargados_complejo_ESPLITEADO.Length; i++)
+                {
+                    double dinero_a_devolver = (Convert.ToDouble(porsentajes_de_comision_encargados_complejo_ESPLITEADO[i]) / 100) * (Convert.ToDouble(dinero)*(Convert.ToDouble(comision_venta_dir_compleja)/100));
+                    if (i < porsentajes_de_comision_encargados_complejo_ESPLITEADO.Length - 1)
+                    {
+                        info_a_devolver = info_a_devolver + dinero_a_devolver + car_sep_para_retornar;
+                    }
+                    else
+                    {
+
+                        info_a_devolver = info_a_devolver + dinero_a_devolver + "";
+                    }
+                    total_acumulado = total_acumulado + dinero_a_devolver;
+                }
+            }
+            else
+            {
+                info_a_devolver = info_a_devolver + G_sep_fun_esp2 + "falto_encargados_complejo_O_comision_venta_dir_compleja";
+            }
+            info_a_devolver = info_a_devolver + G_sep_fun_esp2 + total_acumulado;
+            arreglo_bidimencional = op_arreglos.agregar_registro_del_array_bidimensional(arreglo_bidimencional, info_a_devolver, G_sep_fun_esp2);
+            
+
+            return arreglo_bidimencional;
+        }
+
+
+        public string[] acumulador_de_strings(string texto, int veces, object caracter_separacion_objeto = null, object caracter_separacion_devolvera_2 = null)
+        {
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
+            string[] caracter_separacion_devolvera = var_GG.GG_funcion_caracter_separacion(caracter_separacion_devolvera_2);
+            string[] texto_espliteado = texto.Split(caracter_separacion[0][0]);
+            
+            string[] tex_a_retornar= new string[texto_espliteado.Length];
+            
+            for (int j = 0; j < texto_espliteado.Length; j++)
+            {
+                string acumulador = "";
+                for (int i = 0; i < veces; i++)
+                {
+                    if (i < veces - 1)
+                    {
+                        acumulador = acumulador + texto_espliteado[j] + caracter_separacion_devolvera[0];
+                    }
+                    else
+                    {
+                        acumulador = acumulador + texto_espliteado[j];
+                    }
+                    
+                }
+                tex_a_retornar[j] = acumulador;
+                
+            }
+            return tex_a_retornar;
+        }
+
 
     }
 }

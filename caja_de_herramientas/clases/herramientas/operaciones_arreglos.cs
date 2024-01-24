@@ -11,10 +11,11 @@ namespace caja_de_herramientas.clases.herramientas
     class operaciones_arreglos
     {
 
-        string[] G_caracter_separacion = { "|", "°", "¬", "^" };
+        public string[] G_caracter_separacion = { "|", "°", "¬", "^" };
         public string G_separador_para_funciones_espesificas = "~";
+        public string G_separador_para_funciones_espesificas2 = "§";
 
-
+        var_fun_GG var_GG = new var_fun_GG();
         public string[] agregar_registro_del_array(string[] arreglo, string registro, string al_inicio = null)
         {
             if (arreglo == null)
@@ -56,26 +57,8 @@ namespace caja_de_herramientas.clases.herramientas
         public string[,] agregar_registro_del_array_bidimensional(string[,] arreglo, string registro, object caracter_separacion_objeto = null, string al_inicio = null)
         {
             
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
-            {
-                caracter_separacion = G_caracter_separacion;
-            }
-            else
-            {
-                if (caracter_separacion_objeto is char)
-                {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
+            
 
             if (arreglo == null)
             {
@@ -197,27 +180,8 @@ namespace caja_de_herramientas.clases.herramientas
 
         public string busqueda_profunda_arreglo(string[] areglo, string columnas_a_recorrer, string comparar, string columnas_a_retornar = null, object caracter_separacion_objeto = null)
         {
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
-            {
-                caracter_separacion = G_caracter_separacion;
-            }
-            else
-            {
-                if (caracter_separacion_objeto is char)
-                {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
-
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
+            
 
 
             string[] arr_col_rec = null;
@@ -295,26 +259,7 @@ namespace caja_de_herramientas.clases.herramientas
                     }
             
             */
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
-            {
-                caracter_separacion = G_caracter_separacion;
-            }
-            else
-            {
-                if (caracter_separacion_objeto is char)
-                {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
 
             string[] espliteado_columnas_recorrer = { };
 
@@ -390,26 +335,7 @@ namespace caja_de_herramientas.clases.herramientas
 
         public string[] editar_busqueda_profunda_arreglo(string[] areglo, string columnas_a_recorrer, string comparar, object columnas_a_recorrer_editar, string info_a_sustituir, object caracter_separacion_objeto = null)
         {
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
-            {
-                caracter_separacion = G_caracter_separacion;
-            }
-            else
-            {
-                if (caracter_separacion_objeto is char)
-                {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
 
 
             string[] arr_col_rec = null;
@@ -448,26 +374,7 @@ namespace caja_de_herramientas.clases.herramientas
         public string editar_busqueda_multiple_edicion_profunda_arreglo(string[] areglo, string columnas_a_recorrer, string comparar, string indices_a_editar, string info_editar, string edit_0_o_increm_1 = null, object caracter_separacion_objeto = null, string caracter_separacion_para_busqueda_multiple_profuda = null)
         {
             //editar_busqueda_multiple_edicion_profunda_arreglo(arreglo, "2|1|1", "5", "2|1|1~1~2|1|0", "10~10~10","1~1~0");
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
-            {
-                caracter_separacion = G_caracter_separacion;
-            }
-            else
-            {
-                if (caracter_separacion_objeto is char)
-                {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
 
             if (caracter_separacion_para_busqueda_multiple_profuda == null)
             {
@@ -519,30 +426,8 @@ namespace caja_de_herramientas.clases.herramientas
 
         }
 
-        public string si_no_existe_agrega_string(string[] areglo, string columnas_a_recorrer, string comparar, string texto_a_agregar, object caracter_separacion_objeto = null)
+        public string si_no_existe_agrega_string(string[] areglo, string columnas_a_recorrer, string comparar, string texto_a_agregar)
         {
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
-            {
-                caracter_separacion = G_caracter_separacion;
-            }
-            else
-            {
-                if (caracter_separacion_objeto is char)
-                {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
-
-
             string info_encontrada = busqueda_profunda_arreglo(areglo, columnas_a_recorrer, comparar);
             if (info_encontrada != null)
             {
@@ -559,26 +444,7 @@ namespace caja_de_herramientas.clases.herramientas
         public string[] busqueda_multiple_edicion_multiple_arreglo_profunda(string[] areglo, string columnas_a_recorrer, string comparar, string indices_a_editar, string info_editar, string edit_0_o_increm_1 = null, object caracter_separacion_objeto = null, string caracter_separacion_para_busqueda_multiple_profuda = null)
         {
             //editar_busqueda_multiple_edicion_profunda_arreglo(arreglo, "2|1|1~2|1|1~2|1|1", "5~5~5", "2|1|1~1~2|1|0", "10~10~10","1~1~0");
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
-            {
-                caracter_separacion = G_caracter_separacion;
-            }
-            else
-            {
-                if (caracter_separacion_objeto is char)
-                {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
 
             if (caracter_separacion_para_busqueda_multiple_profuda == null)
             {
@@ -610,25 +476,25 @@ namespace caja_de_herramientas.clases.herramientas
 
                     string tem_linea_2 = "";
                     //comparacion--------------------------------------------------------------------------
-                    
-                    if (tem_linea == comparar_espliteado[i])
+
+                    if (tem_linea == comparar_espliteado[j])
                     {
 
                         string[] indices_espliteado = indices_a_editar.Split(caracter_separacion_para_busqueda_multiple_profuda[0]);
                         string[] info_editar_espliteado = info_editar.Split(caracter_separacion_para_busqueda_multiple_profuda[0]);
                         string[] edit_0_o_increm_1_espliteado = edit_0_o_increm_1.Split(caracter_separacion_para_busqueda_multiple_profuda[0]);
-                        for (int k = 0; k < indices_espliteado.Length; k++)
-                        {
-                            areglo[i] = editar_incr_string_funcion_recursiva(areglo[i], indices_espliteado[k], info_editar_espliteado[k], edit_0_o_increm_1_espliteado[k]);
-                        }
 
-                        return areglo;
+                        areglo[i] = editar_incr_string_funcion_recursiva(areglo[i], indices_espliteado[j], info_editar_espliteado[j], edit_0_o_increm_1_espliteado[j]);
+
+
+
                     }
 
                 }
+                
             }
 
-            return null;
+            return areglo;
         } 
 
     }

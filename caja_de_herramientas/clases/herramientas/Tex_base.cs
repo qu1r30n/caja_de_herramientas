@@ -14,11 +14,11 @@ namespace caja_de_herramientas.clases.herramientas
 
         static public string [][] GG_base_arreglo_de_arreglos = null;
         //direcciones_de_las_bases
-        public string[,] G_dir_bd_y_valor_inicial_bidimencional;
-
+        static public string[,] GG_dir_bd_y_valor_inicial_bidimencional=null;
+        
         //[0]=indice desde donde comensara desde el 0 nombre de las columnas y es mejor empesar desde el 1
-        public string[] G_configuracion = { "1" };
-
+        int G_configuracion = var_fun_GG.GG_indice_donde_comensar;
+        var_fun_GG var_GG = new var_fun_GG();
         //caracteres de separacion//el primero lo usaremos diferente NO USAR LOS MISMOS QUE G_separador_para_funciones_espesificas;
         public string[] G_caracter_separacion = { "|", "°", "¬", "^" };
         public string G_separador_para_funciones_espesificas = "~";
@@ -29,23 +29,24 @@ namespace caja_de_herramientas.clases.herramientas
        Próstata también el nombre de la clase para saber de qué clase se está sacando las funciones -------------------------
        */
         operaciones_arreglos op_arreglos = new operaciones_arreglos();
-
+        
         //fin Aquí poner las funciones de las otras clases Si te vas a llevar esta clase solamente --------------------------------
 
 
         //no muy importantes---------------------------------------------------------------------------------------------------
 
-        
+
 
         //fin no muy importantes-------------------------------------------------------------------------------------------------
 
-        
 
-        public void Crear_archivo_y_directorio(string direccion_archivo, string valor_inicial = null, string[] filas_iniciales = null)//filas: es para filas iniciales valor_inicial: se utilisa para poner filas inicial normalmente se usa para poner el nombre de las columnas
+
+        public string Crear_archivo_y_directorio(string direccion_archivo, string valor_inicial = null, string[] filas_iniciales = null, bool leer_y_agrega_al_arreglo = true)//filas: es para filas iniciales valor_inicial: se utilisa para poner filas inicial normalmente se usa para poner el nombre de las columnas
         {
             char[] parametro2 = { '/', '\\' };//estos seran los parametros de separacion de el split
             string acumulador_directorios_y_archvo = "";
             string[] direccion_espliteada = direccion_archivo.Split(parametro2);//spliteamos la direccion
+            bool creo_algo = false;
 
             for (int i = 0; i < direccion_espliteada.Length; i++)//pasamos por todas las los directorios y archivo
             {
@@ -56,7 +57,7 @@ namespace caja_de_herramientas.clases.herramientas
                     {
 
                         Directory.CreateDirectory(acumulador_directorios_y_archvo);//crea el directorio
-
+                        creo_algo = true;
                     }
                 }
             }
@@ -65,6 +66,7 @@ namespace caja_de_herramientas.clases.herramientas
             {
                 if (!File.Exists(direccion_archivo))//si el archivo no existe entra y lo crea
                 {
+                    
                     FileStream fs0 = new FileStream(direccion_archivo, FileMode.CreateNew);//crea una variable tipo filestream "fs0"  y crea el archivo
                     fs0.Close();//cierra fs0 para que se pueda usar despues
 
@@ -92,38 +94,28 @@ namespace caja_de_herramientas.clases.herramientas
                     }
 
                     //si crea ele archivo lee el archivo
-
+                    if (leer_y_agrega_al_arreglo)
+                    {
+                        Leer_inicial(direccion_archivo);
+                        GG_dir_bd_y_valor_inicial_bidimencional = op_arreglos.agregar_registro_del_array_bidimensional(GG_dir_bd_y_valor_inicial_bidimencional, direccion_archivo + G_separador_para_funciones_espesificas + valor_inicial, G_separador_para_funciones_espesificas);
+                    }
+                    creo_algo = true;     
                 }
+                
+            }
+            if(creo_algo)
+            {
+                return direccion_archivo;
             }
 
-
-
+            return null;
         }
 
         // Método para leer un archivo de texto y devolver un array de strings
 
         public string[] Leer_inicial(string direccionArchivo, string posString = null, object caracter_separacion_objeto = null, int iniciar_desde_que_fila = 0)
         {
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
-            {
-                caracter_separacion = G_caracter_separacion;
-            }
-            else
-            {
-                if (caracter_separacion_objeto is char)
-                {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
 
 
             // Declaración de variables
@@ -240,34 +232,14 @@ namespace caja_de_herramientas.clases.herramientas
 
         public string[] Editar_o_incr_espesifico(string direccion_archivo, int num_column_comp, string comparar, string numero_columnas_editar, string editar_columna, string edit_0_o_increm_1 = null, object caracter_separacion_objeto = null)
         {
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
-            {
-                caracter_separacion = G_caracter_separacion;
-            }
-            else
-            {
-                if (caracter_separacion_objeto is char)
-                {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
-
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
 
 
             int num_indice_de_direccion_int = Convert.ToInt32(sacar_indice_del_arreglo_de_direccion(direccion_archivo));
 
             
 
-            for (int i = 0; i < GG_base_arreglo_de_arreglos[num_indice_de_direccion_int].Length; i++)
+            for (int i = G_configuracion; i < GG_base_arreglo_de_arreglos[num_indice_de_direccion_int].Length; i++)
             {
                 string[] columnas = GG_base_arreglo_de_arreglos[num_indice_de_direccion_int][i].Split(caracter_separacion[0][0]);
                 
@@ -285,33 +257,14 @@ namespace caja_de_herramientas.clases.herramientas
 
         public string[] eliminar_fila(string direccion_archivo, int num_column_comp, string comparar, object caracter_separacion_objeto = null)
         {
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
-            {
-                caracter_separacion = G_caracter_separacion;
-            }
-            else
-            {
-                if (caracter_separacion_objeto is char)
-                {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
 
             string num_indice_de_direccion = sacar_indice_del_arreglo_de_direccion(direccion_archivo);
             int num_indice_de_direccion_int = Convert.ToInt32(num_indice_de_direccion);
 
             string temp = "";
 
-            for (int i = 0; i < GG_base_arreglo_de_arreglos[num_indice_de_direccion_int].Length; i++)
+            for (int i = G_configuracion; i < GG_base_arreglo_de_arreglos[num_indice_de_direccion_int].Length; i++)
             {
                 string[] columnas = GG_base_arreglo_de_arreglos[num_indice_de_direccion_int][i].Split(caracter_separacion[0][0]);
 
@@ -336,31 +289,11 @@ namespace caja_de_herramientas.clases.herramientas
 
         public string seleccionar(string direccion_archivo, int num_column_comp, string comparar, object caracter_separacion_objeto = null)
         {
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
-            {
-                caracter_separacion = G_caracter_separacion;
-            }
-            else
-            {
-                if (caracter_separacion_objeto is char)
-                {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
-
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
 
             int num_indice_de_direccion_int = Convert.ToInt32(sacar_indice_del_arreglo_de_direccion(direccion_archivo));
 
-            for (int i = 0; i < GG_base_arreglo_de_arreglos[num_indice_de_direccion_int].Length; i++)
+            for (int i = G_configuracion; i < GG_base_arreglo_de_arreglos[num_indice_de_direccion_int].Length; i++)
             {
                 string[] columnas = GG_base_arreglo_de_arreglos[num_indice_de_direccion_int][i].Split(caracter_separacion[0][0]);
 
@@ -376,11 +309,12 @@ namespace caja_de_herramientas.clases.herramientas
         public string sacar_indice_del_arreglo_de_direccion(string direccion_archivo)
         {
             string num_indice_de_direccion = null;
-            for (int i = 0; i < G_dir_bd_y_valor_inicial_bidimencional.GetLength(0); i++)
+            for (int i = G_configuracion; i < GG_dir_bd_y_valor_inicial_bidimencional.GetLength(0); i++)
             {
-                if (G_dir_bd_y_valor_inicial_bidimencional[i, 0] == direccion_archivo)
+                if (GG_dir_bd_y_valor_inicial_bidimencional[i, 0] == direccion_archivo)
                 {
                     num_indice_de_direccion = "" + i;
+                    return num_indice_de_direccion;
                 }
             }
             return num_indice_de_direccion;
@@ -388,26 +322,7 @@ namespace caja_de_herramientas.clases.herramientas
 
         public string cambiar_archivo_con_arreglo(string direccion_archivo, string[] arreglo, object caracter_separacion_objeto = null)
         {
-            string[] caracter_separacion = null;
-            if (caracter_separacion_objeto == null)
-            {
-                caracter_separacion = G_caracter_separacion;
-            }
-            else
-            {
-                if (caracter_separacion_objeto is char)
-                {
-                    caracter_separacion = new string[] { caracter_separacion_objeto + "" };
-                }
-                if (caracter_separacion_objeto is string)
-                {
-                    caracter_separacion = caracter_separacion_objeto.ToString().Split(G_separador_para_funciones_espesificas[0]);
-                }
-                if (caracter_separacion_objeto is string[])
-                {
-                    caracter_separacion = (string[])caracter_separacion_objeto;
-                }
-            }
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
 
 
             string exito_o_fallo = "";
