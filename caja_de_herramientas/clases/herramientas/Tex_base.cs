@@ -12,24 +12,32 @@ namespace caja_de_herramientas.clases.herramientas
     class Tex_base
     {
 
-        static public string [][] GG_base_arreglo_de_arreglos = null;
+        static public string[][] GG_base_arreglo_de_arreglos = null;
         //direcciones_de_las_bases
-        static public string[,] GG_dir_bd_y_valor_inicial_bidimencional=null;
-        
+        static public string[,] GG_dir_bd_y_valor_inicial_bidimencional = null;
+
         //[0]=indice desde donde comensara desde el 0 nombre de las columnas y es mejor empesar desde el 1
         int G_configuracion = var_fun_GG.GG_indice_donde_comensar;
         var_fun_GG var_GG = new var_fun_GG();
         //caracteres de separacion//el primero lo usaremos diferente NO USAR LOS MISMOS QUE G_separador_para_funciones_espesificas;
+        /*
         public string[] G_caracter_separacion = { "|", "°", "¬", "^" };
         public string G_separador_para_funciones_espesificas = "~";
         public string G_separador_para_funciones_espesificas2 = "§";
+        public string G_separador_para_funciones_espesificas3 = "¶";
+        */
+        public string[] G_caracter_separacion = var_fun_GG.GG_caracter_separacion;
+        public string[] G_separador_para_funciones_espesificas_ = var_fun_GG.GG_caracter_separacion_funciones_espesificas;
+        
+        
+        
 
         /*Aquí poner las funciones de las otras clases Si te vas a llevar esta clase solamente --------------------------------
        Ver poniendo también los nombres de las funciones que estás usando para no pasar toda la clase -----------------------
        Próstata también el nombre de la clase para saber de qué clase se está sacando las funciones -------------------------
        */
         operaciones_arreglos op_arreglos = new operaciones_arreglos();
-        
+
         //fin Aquí poner las funciones de las otras clases Si te vas a llevar esta clase solamente --------------------------------
 
 
@@ -40,9 +48,10 @@ namespace caja_de_herramientas.clases.herramientas
         //fin no muy importantes-------------------------------------------------------------------------------------------------
 
 
-
-        public string Crear_archivo_y_directorio(string direccion_archivo, string valor_inicial = null, string[] filas_iniciales = null, bool leer_y_agrega_al_arreglo = true)//filas: es para filas iniciales valor_inicial: se utilisa para poner filas inicial normalmente se usa para poner el nombre de las columnas
+        //filas: es para filas iniciales valor_inicial: se utilisa para poner filas inicial normalmente se usa para poner el nombre de las columnas
+        public string Crear_archivo_y_directorio_opcion_leer_y_agrega_arreglo(string direccion_archivo, string valor_inicial = null, string[] filas_iniciales = null, object caracter_separacion_fun_esp_objeto = null, bool leer_y_agrega_al_arreglo = true)
         {
+            string[] caracter_separacion_fun_esp = var_GG.GG_funcion_caracter_separacion_funciones_especificas(caracter_separacion_fun_esp_objeto);
             char[] parametro2 = { '/', '\\' };//estos seran los parametros de separacion de el split
             string acumulador_directorios_y_archvo = "";
             string[] direccion_espliteada = direccion_archivo.Split(parametro2);//spliteamos la direccion
@@ -93,15 +102,16 @@ namespace caja_de_herramientas.clases.herramientas
                         
                     }
 
-                    //si crea ele archivo lee el archivo
-                    if (leer_y_agrega_al_arreglo)
-                    {
-                        Leer_inicial(direccion_archivo);
-                        GG_dir_bd_y_valor_inicial_bidimencional = op_arreglos.agregar_registro_del_array_bidimensional(GG_dir_bd_y_valor_inicial_bidimencional, direccion_archivo + G_separador_para_funciones_espesificas + valor_inicial, G_separador_para_funciones_espesificas);
-                    }
+                    
                     creo_algo = true;     
                 }
-                
+                //si crea ele archivo lee el archivo
+                if (leer_y_agrega_al_arreglo)
+                {
+                    GG_dir_bd_y_valor_inicial_bidimencional = op_arreglos.agregar_registro_del_array_bidimensional(GG_dir_bd_y_valor_inicial_bidimencional, direccion_archivo + caracter_separacion_fun_esp[0] + valor_inicial, caracter_separacion_fun_esp);
+                    GG_base_arreglo_de_arreglos = op_arreglos.agregar_arreglo_a_arreglo_de_arreglos(GG_base_arreglo_de_arreglos, Leer_inicial(direccion_archivo));
+                    return direccion_archivo + G_caracter_separacion[0] + "leido";
+                }
             }
             if(creo_algo)
             {
@@ -115,8 +125,9 @@ namespace caja_de_herramientas.clases.herramientas
 
         public string[] Leer_inicial(string direccionArchivo, string posString = null, object caracter_separacion_objeto = null, int iniciar_desde_que_fila = 0)
         {
-            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
 
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
+            
 
             // Declaración de variables
             string[] linea = null;      // Almacenará todas las líneas cuando posString sea null
@@ -183,7 +194,7 @@ namespace caja_de_herramientas.clases.herramientas
                 {
                     arreglo_a_retornar[fila] = "" + resultado[fila];
                 }
-
+                
                 // Devolver el resultado
                 return arreglo_a_retornar;
             }
@@ -275,7 +286,7 @@ namespace caja_de_herramientas.clases.herramientas
 
                 if (i > GG_base_arreglo_de_arreglos[num_indice_de_direccion_int].Length - 1)
                 {
-                    temp = temp + GG_base_arreglo_de_arreglos[num_indice_de_direccion_int][i] + G_separador_para_funciones_espesificas;
+                    temp = temp + GG_base_arreglo_de_arreglos[num_indice_de_direccion_int][i] + G_separador_para_funciones_espesificas_[0];
                 }
                 else
                 {
@@ -283,7 +294,7 @@ namespace caja_de_herramientas.clases.herramientas
                 }
 
             }
-            string[] arreglo_a_retornar = temp.Split(G_separador_para_funciones_espesificas[0]);
+            string[] arreglo_a_retornar = temp.Split(G_separador_para_funciones_espesificas_[0][0]);
             return arreglo_a_retornar;
         }
 

@@ -13,11 +13,11 @@ namespace caja_de_herramientas.clases.herramientas
         static public int GG_indice_donde_comensar = 1;
 
         static public string[] GG_caracter_separacion = { "|", "°", "¬", "^" };
-        static public string GG_separador_para_funciones_espesificas = "~";
-        static public string GG_separador_para_funciones_espesificas2 = "§";
+
+        static public string[] GG_caracter_separacion_funciones_espesificas = { "~", "§", "¶"};
 
         //funciones---------------------------------------------------------------------------------------------------------
-        
+
         public string[] GG_funcion_caracter_separacion(object caracter_separacion_objeto = null)
         {
             string[] caracter_separacion = null;
@@ -33,17 +33,64 @@ namespace caja_de_herramientas.clases.herramientas
                 }
                 if (caracter_separacion_objeto is string)
                 {
-                    if (caracter_separacion_objeto.ToString() != GG_separador_para_funciones_espesificas)
+                    if (caracter_separacion_objeto.ToString() != GG_caracter_separacion_funciones_espesificas[0])
                     {
-                        caracter_separacion = caracter_separacion_objeto.ToString().Split(GG_separador_para_funciones_espesificas[0]);
+                        caracter_separacion = caracter_separacion_objeto.ToString().Split(GG_caracter_separacion_funciones_espesificas[0][0]);
                     }
                     else
                     {
-                        caracter_separacion = caracter_separacion_objeto.ToString().Split(GG_separador_para_funciones_espesificas2[0]);
+                        caracter_separacion = caracter_separacion_objeto.ToString().Split(GG_caracter_separacion_funciones_espesificas[1][0]);
                     }
 
                 }
                 if (caracter_separacion_objeto is string[])
+                {
+                    caracter_separacion = (string[])caracter_separacion_objeto;
+                }
+            }
+
+            return caracter_separacion;
+
+        }
+
+        public string[] GG_funcion_caracter_separacion_funciones_especificas(object caracter_separacion_objeto = null)
+        {
+            string[] caracter_separacion = null;
+            if (caracter_separacion_objeto == null)
+            {
+                caracter_separacion = GG_caracter_separacion_funciones_espesificas;
+            }
+            else
+            {
+                if (caracter_separacion_objeto is char)
+                {
+                    //caracter_separacion = new string[] { caracter_separacion_objeto + "" };
+                    for (int i = 0; i < GG_caracter_separacion_funciones_espesificas.Length; i++)
+                    {
+                        if (caracter_separacion_objeto.ToString() != GG_caracter_separacion_funciones_espesificas[i])
+                        {
+                            caracter_separacion = caracter_separacion_objeto.ToString().Split(GG_caracter_separacion_funciones_espesificas[0][i]);
+                            return caracter_separacion;
+                        }
+                    }
+
+                }
+                if (caracter_separacion_objeto is string)
+                {
+                    for (int i = 0; i < GG_caracter_separacion_funciones_espesificas.Length; i++)
+                    {
+                        if (caracter_separacion_objeto.ToString() != GG_caracter_separacion_funciones_espesificas[i])
+                        {
+                            caracter_separacion = caracter_separacion_objeto.ToString().Split(GG_caracter_separacion_funciones_espesificas[0][i]);
+                            return caracter_separacion;
+                        }
+                    }
+                }
+                if (caracter_separacion_objeto is string[])
+                {
+                    caracter_separacion = (string[])caracter_separacion_objeto;
+                }
+                if (caracter_separacion_objeto is char[])
                 {
                     caracter_separacion = (string[])caracter_separacion_objeto;
                 }
@@ -90,7 +137,7 @@ namespace caja_de_herramientas.clases.herramientas
             else if (datos is string[])
             {
                 string[] temp = (string[])datos;
-                bas.Crear_archivo_y_directorio(carpetas + "\\", "datos", leer_y_agrega_al_arreglo: false);
+                bas.Crear_archivo_y_directorio_opcion_leer_y_agrega_arreglo(carpetas + "\\", "datos", leer_y_agrega_al_arreglo: false);
                 for (int i = 0; i < temp.Length; i++)
                 {
                     bas.Agregar_a_archivo_sin_arreglo(direccion, temp[i]);

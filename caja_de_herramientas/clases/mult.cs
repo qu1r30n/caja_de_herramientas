@@ -16,8 +16,8 @@ namespace caja_de_herramientas.clases
 
         int G_configuracion = var_fun_GG.GG_indice_donde_comensar;
 
-        public string G_sep_fun_esp = var_fun_GG.GG_separador_para_funciones_espesificas;
-        public string G_sep_fun_esp2 = var_fun_GG.GG_separador_para_funciones_espesificas2;
+        public string G_sep_fun_esp = var_fun_GG.GG_caracter_separacion_funciones_espesificas[0];
+        public string G_sep_fun_esp2 = var_fun_GG.GG_caracter_separacion_funciones_espesificas[1];
 
         public void registro_simple(string direccion, string id_encargado_simple, string tabla_simple, string[] datos, double dinero_registro = 0, object caracter_separacion_objeto = null, bool regis=true)
         {
@@ -54,7 +54,7 @@ namespace caja_de_herramientas.clases
                 DateTime fecha_hora = DateTime.Now;
                 string año_mes_dia = fecha_hora.ToString("yyyyMMdd");
                 string dir = carpetas + "\\reg\\" + año_mes_dia + "registro_simple_mov.txt";
-                bas.Crear_archivo_y_directorio(dir, "registro_simple|dir_tabla|id_usuario|datos_usuario|dinero_registro|id_encargado_simple|", leer_y_agrega_al_arreglo: false);
+                bas.Crear_archivo_y_directorio_opcion_leer_y_agrega_arreglo(dir, "registro_simple|dir_tabla|id_usuario|datos_usuario|dinero_registro|id_encargado_simple|", leer_y_agrega_al_arreglo: false);
                 string info_movimiento = "registro_simple" + caracter_separacion [0] + direccion + caracter_separacion [0] + cantidad_de_registros + caracter_separacion [0] + datos_usuario + caracter_separacion [0] + dinero_registro + caracter_separacion [0] + id_encargado_simple + caracter_separacion [0];
                 bas.Agregar_a_archivo_sin_arreglo(dir, info_movimiento);
             }
@@ -103,7 +103,7 @@ namespace caja_de_herramientas.clases
                 DateTime fecha_hora = DateTime.Now;
                 string año_mes_dia = fecha_hora.ToString("yyyyMMdd");
                 string dir = carpetas + "\\reg\\" + año_mes_dia + "registro_simple_mov.txt";
-                bas.Crear_archivo_y_directorio(dir, "registro_simple|dir_tabla|id_usuario|datos_usuario|dinero_registro|id_encargado_simple|", leer_y_agrega_al_arreglo: false);
+                bas.Crear_archivo_y_directorio_opcion_leer_y_agrega_arreglo(dir, "registro_simple|dir_tabla|id_usuario|datos_usuario|dinero_registro|id_encargado_simple|", leer_y_agrega_al_arreglo: false);
                 string info_movimiento = "registro_complejo" + caracter_separacion [0] + direccion + caracter_separacion [0] + cantidad_de_registros + caracter_separacion [0] + datos_usuario + caracter_separacion [0] + dinero_registro + caracter_separacion [0] + id_encargado_simple + caracter_separacion [0] + id_encargado_complejo + caracter_separacion [0];
                 bas.Agregar_a_archivo_sin_arreglo(dir, info_movimiento);
             }
