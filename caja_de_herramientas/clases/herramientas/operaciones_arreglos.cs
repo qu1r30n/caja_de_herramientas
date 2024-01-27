@@ -11,9 +11,9 @@ namespace caja_de_herramientas.clases.herramientas
     class operaciones_arreglos
     {
 
-        public string[] G_caracter_separacion = { "|", "°", "¬", "^" };
-        public string G_separador_para_funciones_espesificas = "~";
-        public string G_separador_para_funciones_espesificas2 = "§";
+        public string[] G_caracter_separacion = var_fun_GG.GG_caracter_separacion;
+        public string[] G_separador_para_funciones_espesificas_ = var_fun_GG.GG_caracter_separacion_funciones_espesificas;
+        
 
         var_fun_GG var_GG = new var_fun_GG();
         public string[] agregar_registro_del_array(string[] arreglo, string registro, string al_inicio = null)
@@ -378,7 +378,7 @@ namespace caja_de_herramientas.clases.herramientas
 
             if (caracter_separacion_para_busqueda_multiple_profuda == null)
             {
-                caracter_separacion_para_busqueda_multiple_profuda = G_separador_para_funciones_espesificas;
+                caracter_separacion_para_busqueda_multiple_profuda = G_separador_para_funciones_espesificas_[0];
             }
 
 
@@ -448,7 +448,7 @@ namespace caja_de_herramientas.clases.herramientas
 
             if (caracter_separacion_para_busqueda_multiple_profuda == null)
             {
-                caracter_separacion_para_busqueda_multiple_profuda = G_separador_para_funciones_espesificas;
+                caracter_separacion_para_busqueda_multiple_profuda = G_separador_para_funciones_espesificas_[0];
             }
             string[] comparar_espliteado = comparar.Split(caracter_separacion_para_busqueda_multiple_profuda[0]);
 

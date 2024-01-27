@@ -16,8 +16,9 @@ namespace caja_de_herramientas.clases
 
         int G_configuracion = var_fun_GG.GG_indice_donde_comensar;
 
-        public string G_sep_fun_esp = var_fun_GG.GG_caracter_separacion_funciones_espesificas[0];
-        public string G_sep_fun_esp2 = var_fun_GG.GG_caracter_separacion_funciones_espesificas[1];
+        public string[] G_caracter_separacion = var_fun_GG.GG_caracter_separacion;
+        public string[] G_separador_para_funciones_espesificas_ = var_fun_GG.GG_caracter_separacion_funciones_espesificas;
+
 
         public void registro_simple(string direccion, string id_encargado_simple, string tabla_simple, string[] datos, double dinero_registro = 0, object caracter_separacion_objeto = null, bool regis=true)
         {
@@ -121,8 +122,8 @@ namespace caja_de_herramientas.clases
             string[] res_comp = null;
             //simple-----------------------------------------------------------------------------------------------------------------------
             string[] porcentage_simple_esp = Tex_base.GG_base_arreglo_de_arreglos[4][2].Split(caracter_separacion[0][0]);
-            string enc_simples = extraer_patrosinadores_funcion_recursiva(direccion_enc_simple, 0, id_usuario_simple, 3, porcentage_simple_esp.Length, G_sep_fun_esp);
-            string[] acum_simple = acumulador_de_strings(textos_a_repetir, porcentage_simple_esp.Length, caracter_separacion_devolvera_2: G_sep_fun_esp);
+            string enc_simples = extraer_patrosinadores_funcion_recursiva(direccion_enc_simple, 0, id_usuario_simple, 3, porcentage_simple_esp.Length, G_separador_para_funciones_espesificas_[0]);
+            string[] acum_simple = acumulador_de_strings(textos_a_repetir, porcentage_simple_esp.Length, caracter_separacion_devolvera_2: G_separador_para_funciones_espesificas_[0]);
 
 
             //complejo---------------------------------------------------------------------------------------------------------------------------
@@ -130,20 +131,20 @@ namespace caja_de_herramientas.clases
             if (direccion_enc_complejo!=null)
             {
                 string[] porcentaje_complejo_esp = Tex_base.GG_base_arreglo_de_arreglos[4][3].Split(caracter_separacion[0][0]);
-                string enc_complejos = extraer_patrosinadores_funcion_recursiva(direccion_enc_complejo, 0, fila_espliteada[3], 3, porcentaje_complejo_esp.Length, G_sep_fun_esp);
-                string[] acum_complejo = acumulador_de_strings(textos_a_repetir, porcentaje_complejo_esp.Length, caracter_separacion_devolvera_2: G_sep_fun_esp);
+                string enc_complejos = extraer_patrosinadores_funcion_recursiva(direccion_enc_complejo, 0, fila_espliteada[3], 3, porcentaje_complejo_esp.Length, G_separador_para_funciones_espesificas_[0]);
+                string[] acum_complejo = acumulador_de_strings(textos_a_repetir, porcentaje_complejo_esp.Length, caracter_separacion_devolvera_2: G_separador_para_funciones_espesificas_[0]);
 
-                a_pagar = calc_din_por_enc_y_total(enc_simples, cantidad_dinero_string, enc_complejos, car_sep_para_retornar: G_sep_fun_esp);
-                res_comp = op_arreglos.busqueda_multiple_edicion_multiple_arreglo_profunda(Tex_base.GG_base_arreglo_de_arreglos[3], acum_complejo[0], enc_complejos, acum_complejo[1], a_pagar[0, 1], acum_complejo[2], caracter_separacion_para_busqueda_multiple_profuda: G_sep_fun_esp);
+                a_pagar = calc_din_por_enc_y_total(enc_simples, cantidad_dinero_string, enc_complejos, car_sep_para_retornar: G_separador_para_funciones_espesificas_[0]);
+                res_comp = op_arreglos.busqueda_multiple_edicion_multiple_arreglo_profunda(Tex_base.GG_base_arreglo_de_arreglos[3], acum_complejo[0], enc_complejos, acum_complejo[1], a_pagar[0, 1], acum_complejo[2], caracter_separacion_para_busqueda_multiple_profuda: G_separador_para_funciones_espesificas_[0]);
                 bas.cambiar_archivo_con_arreglo(direccion_enc_complejo, res_comp);
             }
             else
             {
-                a_pagar = calc_din_por_enc_y_total(enc_simples, cantidad_dinero_string, null, car_sep_para_retornar: G_sep_fun_esp);
+                a_pagar = calc_din_por_enc_y_total(enc_simples, cantidad_dinero_string, null, car_sep_para_retornar: G_separador_para_funciones_espesificas_[0]);
                 
             }
             
-            string[] res_simp = op_arreglos.busqueda_multiple_edicion_multiple_arreglo_profunda(Tex_base.GG_base_arreglo_de_arreglos[2], acum_simple[0], enc_simples, acum_simple[1], a_pagar[0, 0], acum_simple[2], caracter_separacion_para_busqueda_multiple_profuda: G_sep_fun_esp);
+            string[] res_simp = op_arreglos.busqueda_multiple_edicion_multiple_arreglo_profunda(Tex_base.GG_base_arreglo_de_arreglos[2], acum_simple[0], enc_simples, acum_simple[1], a_pagar[0, 0], acum_simple[2], caracter_separacion_para_busqueda_multiple_profuda: G_separador_para_funciones_espesificas_[0]);
             bas.cambiar_archivo_con_arreglo(direccion_enc_simple, res_simp);
             
             if (porsentage_comision_por_venta != null)
@@ -266,7 +267,7 @@ namespace caja_de_herramientas.clases
 
             if (encargados_complejo != null && comision_venta_dir_compleja!=null) 
             {
-                info_a_devolver = info_a_devolver + G_sep_fun_esp2;
+                info_a_devolver = info_a_devolver + G_separador_para_funciones_espesificas_[1];
 
                 for (int i = 0; i < porsentajes_de_comision_encargados_complejo_ESPLITEADO.Length; i++)
                 {
@@ -285,10 +286,10 @@ namespace caja_de_herramientas.clases
             }
             else
             {
-                info_a_devolver = info_a_devolver + G_sep_fun_esp2 + "falto_encargados_complejo_O_comision_venta_dir_compleja";
+                info_a_devolver = info_a_devolver + G_separador_para_funciones_espesificas_[1] + "falto_encargados_complejo_O_comision_venta_dir_compleja";
             }
-            info_a_devolver = info_a_devolver + G_sep_fun_esp2 + total_acumulado;
-            arreglo_bidimencional = op_arreglos.agregar_registro_del_array_bidimensional(arreglo_bidimencional, info_a_devolver, G_sep_fun_esp2);
+            info_a_devolver = info_a_devolver + G_separador_para_funciones_espesificas_[1] + total_acumulado;
+            arreglo_bidimencional = op_arreglos.agregar_registro_del_array_bidimensional(arreglo_bidimencional, info_a_devolver, G_separador_para_funciones_espesificas_[1]);
             
 
             return arreglo_bidimencional;

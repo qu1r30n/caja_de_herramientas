@@ -10,9 +10,8 @@ namespace caja_de_herramientas.clases.herramientas
 {
     class operaciones_textos
     {
-        public string[] G_caracter_separacion = { "|", "°", "¬", "^" };
-        public string G_separador_para_funciones_espesificas = "~";
-        public string G_separador_para_funciones_espesificas2 = "§";
+        public string[] G_caracter_separacion = var_fun_GG.GG_caracter_separacion;
+        public string[] G_separador_para_funciones_espesificas_ = var_fun_GG.GG_caracter_separacion_funciones_espesificas;
 
         var_fun_GG var_GG = new var_fun_GG();
 
