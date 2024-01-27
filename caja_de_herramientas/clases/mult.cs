@@ -120,7 +120,7 @@ namespace caja_de_herramientas.clases
             
             string[] res_comp = null;
             //simple-----------------------------------------------------------------------------------------------------------------------
-            string[] porcentage_simple_esp = Tex_base.GG_base_arreglo_de_arreglos[3][2].Split(caracter_separacion[0][0]);
+            string[] porcentage_simple_esp = Tex_base.GG_base_arreglo_de_arreglos[4][2].Split(caracter_separacion[0][0]);
             string enc_simples = extraer_patrosinadores_funcion_recursiva(direccion_enc_simple, 0, id_usuario_simple, 3, porcentage_simple_esp.Length, G_sep_fun_esp);
             string[] acum_simple = acumulador_de_strings(textos_a_repetir, porcentage_simple_esp.Length, caracter_separacion_devolvera_2: G_sep_fun_esp);
 
@@ -129,12 +129,12 @@ namespace caja_de_herramientas.clases
             
             if (direccion_enc_complejo!=null)
             {
-                string[] porcentaje_complejo_esp = Tex_base.GG_base_arreglo_de_arreglos[3][3].Split(caracter_separacion[0][0]);
+                string[] porcentaje_complejo_esp = Tex_base.GG_base_arreglo_de_arreglos[4][3].Split(caracter_separacion[0][0]);
                 string enc_complejos = extraer_patrosinadores_funcion_recursiva(direccion_enc_complejo, 0, fila_espliteada[3], 3, porcentaje_complejo_esp.Length, G_sep_fun_esp);
                 string[] acum_complejo = acumulador_de_strings(textos_a_repetir, porcentaje_complejo_esp.Length, caracter_separacion_devolvera_2: G_sep_fun_esp);
 
                 a_pagar = calc_din_por_enc_y_total(enc_simples, cantidad_dinero_string, enc_complejos, car_sep_para_retornar: G_sep_fun_esp);
-                res_comp = op_arreglos.busqueda_multiple_edicion_multiple_arreglo_profunda(Tex_base.GG_base_arreglo_de_arreglos[2], acum_complejo[0], enc_complejos, acum_complejo[1], a_pagar[0, 1], acum_complejo[2], caracter_separacion_para_busqueda_multiple_profuda: G_sep_fun_esp);
+                res_comp = op_arreglos.busqueda_multiple_edicion_multiple_arreglo_profunda(Tex_base.GG_base_arreglo_de_arreglos[3], acum_complejo[0], enc_complejos, acum_complejo[1], a_pagar[0, 1], acum_complejo[2], caracter_separacion_para_busqueda_multiple_profuda: G_sep_fun_esp);
                 bas.cambiar_archivo_con_arreglo(direccion_enc_complejo, res_comp);
             }
             else
@@ -143,7 +143,7 @@ namespace caja_de_herramientas.clases
                 
             }
             
-            string[] res_simp = op_arreglos.busqueda_multiple_edicion_multiple_arreglo_profunda(Tex_base.GG_base_arreglo_de_arreglos[1], acum_simple[0], enc_simples, acum_simple[1], a_pagar[0, 0], acum_simple[2], caracter_separacion_para_busqueda_multiple_profuda: G_sep_fun_esp);
+            string[] res_simp = op_arreglos.busqueda_multiple_edicion_multiple_arreglo_profunda(Tex_base.GG_base_arreglo_de_arreglos[2], acum_simple[0], enc_simples, acum_simple[1], a_pagar[0, 0], acum_simple[2], caracter_separacion_para_busqueda_multiple_profuda: G_sep_fun_esp);
             bas.cambiar_archivo_con_arreglo(direccion_enc_simple, res_simp);
             
             if (porsentage_comision_por_venta != null)
@@ -222,16 +222,16 @@ namespace caja_de_herramientas.clases
 
             if (comision_venta_dir_compleja == null)
             {
-                comision_venta_dir_compleja = Tex_base.GG_base_arreglo_de_arreglos[3][4];
+                comision_venta_dir_compleja = Tex_base.GG_base_arreglo_de_arreglos[4][4];
             }
 
             if (porsentajes_de_comision_encargados_simp == null)
             {
-                porsentajes_de_comision_encargados_simp = Tex_base.GG_base_arreglo_de_arreglos[3][2];
+                porsentajes_de_comision_encargados_simp = Tex_base.GG_base_arreglo_de_arreglos[4][2];
             }
             if (porsentajes_de_comision_encargados_complejo == null)
             {
-                porsentajes_de_comision_encargados_complejo = Tex_base.GG_base_arreglo_de_arreglos[3][3];
+                porsentajes_de_comision_encargados_complejo = Tex_base.GG_base_arreglo_de_arreglos[4][3];
             }
             
 
