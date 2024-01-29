@@ -23,7 +23,7 @@ namespace caja_de_herramientas
             mult m = new mult();
             //m.entrada_dinero_simple_metodo_sin_lista_de_patrocinadores("config\\sismul2\\negocio.txt", "3", "100");
             //m.entrada_dinero_simple_y_complejo("config\\sismul2\\negocio.txt", "5", "100",porsentage_comision_por_venta:"10");
-            //m.entrada_dinero_simple_y_complejo("config\\sismul2\\negocio.txt", "5", "100", "config\\sismul2\\patrocinadores_complejos.txt", porsentage_comision_por_venta: "10");
+            m.entrada_dinero_simple_y_complejo("config\\sismul2\\negocio.txt", "5", "100", "config\\sismul2\\patrocinadores_complejos.txt", porsentage_comision_por_venta: "10");
         }
     }
 }

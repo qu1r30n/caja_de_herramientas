@@ -13,6 +13,19 @@ namespace caja_de_herramientas.clases
         operaciones_arreglos op_arreglos = new operaciones_arreglos();
         operaciones_textos op_textos = new operaciones_textos();
         var_fun_GG var_GG = new var_fun_GG();
+        /*
+        
+        
+        
+        */
+        //string G_direccion_negocio = "config\\sismul2\\negocio.txt";
+        string G_direccion_negocio = Tex_base.GG_dir_bd_y_valor_inicial_bidimencional[2, 0];
+        //string G_direccion_patrocinadores_complejos = "config\\sismul2\\patrocinadores_complejos.txt";
+        string G_direccion_patrocinadores_complejos = Tex_base.GG_dir_bd_y_valor_inicial_bidimencional[3, 0];
+        //string G_direccion_porcentages = "config\\sismul2\\porcentajes\\porcentajes.txt";
+        string G_direccion_porcentages = Tex_base.GG_dir_bd_y_valor_inicial_bidimencional[4, 0];
+        
+
 
         int G_configuracion = var_fun_GG.GG_indice_donde_comensar;
 
@@ -64,9 +77,6 @@ namespace caja_de_herramientas.clases
         public void registro_complejo(string direccion, string id_encargado_simple, string tabla_simple,string id_encargado_complejo, string tabla_complejo, string[] datos, double dinero_registro = 0, object caracter_separacion_objeto = null, bool regis=true)
         {
             string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
-
-
-
 
             string datos_usuario = "";
             for (int i = 0; i < datos.Length; i++)
@@ -121,7 +131,10 @@ namespace caja_de_herramientas.clases
             
             string[] res_comp = null;
             //simple-----------------------------------------------------------------------------------------------------------------------
-            string[] porcentage_simple_esp = Tex_base.GG_base_arreglo_de_arreglos[4][2].Split(caracter_separacion[0][0]);
+
+            int indice_de_porcentages = Convert.ToInt32(bas.sacar_indice_del_arreglo_de_direccion(G_direccion_porcentages));
+            //string[] porcentage_simple_esp = Tex_base.GG_base_arreglo_de_arreglos[4][2].Split(caracter_separacion[0][0]);
+            string[] porcentage_simple_esp = Tex_base.GG_base_arreglo_de_arreglos[indice_de_porcentages][2].Split(caracter_separacion[0][0]);
             string enc_simples = extraer_patrosinadores_funcion_recursiva(direccion_enc_simple, 0, id_usuario_simple, 3, porcentage_simple_esp.Length, G_separador_para_funciones_espesificas_[0]);
             string[] acum_simple = acumulador_de_strings(textos_a_repetir, porcentage_simple_esp.Length, caracter_separacion_devolvera_2: G_separador_para_funciones_espesificas_[0]);
 
@@ -130,12 +143,13 @@ namespace caja_de_herramientas.clases
             
             if (direccion_enc_complejo!=null)
             {
-                string[] porcentaje_complejo_esp = Tex_base.GG_base_arreglo_de_arreglos[4][3].Split(caracter_separacion[0][0]);
+                string[] porcentaje_complejo_esp = Tex_base.GG_base_arreglo_de_arreglos[indice_de_porcentages][3].Split(caracter_separacion[0][0]);
                 string enc_complejos = extraer_patrosinadores_funcion_recursiva(direccion_enc_complejo, 0, fila_espliteada[3], 3, porcentaje_complejo_esp.Length, G_separador_para_funciones_espesificas_[0]);
                 string[] acum_complejo = acumulador_de_strings(textos_a_repetir, porcentaje_complejo_esp.Length, caracter_separacion_devolvera_2: G_separador_para_funciones_espesificas_[0]);
 
                 a_pagar = calc_din_por_enc_y_total(enc_simples, cantidad_dinero_string, enc_complejos, car_sep_para_retornar: G_separador_para_funciones_espesificas_[0]);
-                res_comp = op_arreglos.busqueda_multiple_edicion_multiple_arreglo_profunda(Tex_base.GG_base_arreglo_de_arreglos[3], acum_complejo[0], enc_complejos, acum_complejo[1], a_pagar[0, 1], acum_complejo[2], caracter_separacion_para_busqueda_multiple_profuda: G_separador_para_funciones_espesificas_[0]);
+                int indice_arch_pat_comp=Convert.ToInt32(bas.sacar_indice_del_arreglo_de_direccion(G_direccion_patrocinadores_complejos));
+                res_comp = op_arreglos.busqueda_multiple_edicion_multiple_arreglo_profunda(Tex_base.GG_base_arreglo_de_arreglos[indice_arch_pat_comp], acum_complejo[0], enc_complejos, acum_complejo[1], a_pagar[0, 1], acum_complejo[2], caracter_separacion_para_busqueda_multiple_profuda: G_separador_para_funciones_espesificas_[0]);
                 bas.cambiar_archivo_con_arreglo(direccion_enc_complejo, res_comp);
             }
             else
@@ -143,8 +157,9 @@ namespace caja_de_herramientas.clases
                 a_pagar = calc_din_por_enc_y_total(enc_simples, cantidad_dinero_string, null, car_sep_para_retornar: G_separador_para_funciones_espesificas_[0]);
                 
             }
-            
-            string[] res_simp = op_arreglos.busqueda_multiple_edicion_multiple_arreglo_profunda(Tex_base.GG_base_arreglo_de_arreglos[2], acum_simple[0], enc_simples, acum_simple[1], a_pagar[0, 0], acum_simple[2], caracter_separacion_para_busqueda_multiple_profuda: G_separador_para_funciones_espesificas_[0]);
+
+            int indice_negocio = Convert.ToInt32(bas.sacar_indice_del_arreglo_de_direccion(G_direccion_negocio));
+            string[] res_simp = op_arreglos.busqueda_multiple_edicion_multiple_arreglo_profunda(Tex_base.GG_base_arreglo_de_arreglos[indice_negocio], acum_simple[0], enc_simples, acum_simple[1], a_pagar[0, 0], acum_simple[2], caracter_separacion_para_busqueda_multiple_profuda: G_separador_para_funciones_espesificas_[0]);
             bas.cambiar_archivo_con_arreglo(direccion_enc_simple, res_simp);
             
             if (porsentage_comision_por_venta != null)
@@ -220,19 +235,19 @@ namespace caja_de_herramientas.clases
         public string[,] calc_din_por_enc_y_total(string encargados_simple, string dinero, string encargados_complejo = null, string porsentajes_de_comision_encargados_simp = null, string porsentajes_de_comision_encargados_complejo = null, string comision_venta_dir_compleja=null, string car_sep_para_retornar = null, object caracter_separacion_objeto = null)
         {
             string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
-
+            int indice_de_porcentages = Convert.ToInt32(bas.sacar_indice_del_arreglo_de_direccion(G_direccion_porcentages));
             if (comision_venta_dir_compleja == null)
             {
-                comision_venta_dir_compleja = Tex_base.GG_base_arreglo_de_arreglos[4][4];
+                comision_venta_dir_compleja = Tex_base.GG_base_arreglo_de_arreglos[indice_de_porcentages][4];
             }
 
             if (porsentajes_de_comision_encargados_simp == null)
             {
-                porsentajes_de_comision_encargados_simp = Tex_base.GG_base_arreglo_de_arreglos[4][2];
+                porsentajes_de_comision_encargados_simp = Tex_base.GG_base_arreglo_de_arreglos[indice_de_porcentages][2];
             }
             if (porsentajes_de_comision_encargados_complejo == null)
             {
-                porsentajes_de_comision_encargados_complejo = Tex_base.GG_base_arreglo_de_arreglos[4][3];
+                porsentajes_de_comision_encargados_complejo = Tex_base.GG_base_arreglo_de_arreglos[indice_de_porcentages][3];
             }
             
 

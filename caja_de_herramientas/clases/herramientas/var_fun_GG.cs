@@ -8,7 +8,8 @@ namespace caja_de_herramientas.clases.herramientas
 {
     class var_fun_GG
     {
-        
+
+        int indice_de_donde_esta_el_archivo_de_porcentajes_de_mult = 4;
 
         static public int GG_indice_donde_comensar = 1;
 
