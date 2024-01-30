@@ -52,8 +52,6 @@ namespace caja_de_herramientas.clases.herramientas
 
         }
 
-
-
         public string[,] agregar_registro_del_array_bidimensional(string[,] arreglo, string registro, object caracter_separacion_objeto = null, string al_inicio = null)
         {
             
@@ -123,8 +121,6 @@ namespace caja_de_herramientas.clases.herramientas
                 return temp;
             }
         }
-
-
 
         /*
         public string[][] agregar_arreglo_a_arreglo_de_arreglos(string[][] arreglo_de_arreglos, string[] nuevo_arreglo)
@@ -495,7 +491,43 @@ namespace caja_de_herramientas.clases.herramientas
             }
 
             return areglo;
-        } 
+        }
+
+
+        public string[] funcion_convert_objeto_a_arreglo(object texto_enviar_arreglo_objeto, string caracter_de_separacion_si_es_string = null)
+        {
+
+            string[] texto_enviar_arreglo_string = null;
+            if (texto_enviar_arreglo_objeto == null)
+            {
+                texto_enviar_arreglo_string = new[] { "" };
+            }
+            else
+            {
+                if (texto_enviar_arreglo_objeto is char)
+                {
+                    texto_enviar_arreglo_string = new string[] { texto_enviar_arreglo_objeto + "" };
+                }
+                if (texto_enviar_arreglo_objeto is string)
+                {
+                    if (caracter_de_separacion_si_es_string == null)
+                    {
+                        texto_enviar_arreglo_string = texto_enviar_arreglo_objeto.ToString().Split(var_fun_GG.GG_caracter_separacion_funciones_espesificas[2][0]);
+                    }
+                    else
+                    {
+                        texto_enviar_arreglo_string = texto_enviar_arreglo_objeto.ToString().Split(var_fun_GG.GG_caracter_separacion_funciones_espesificas[2][0]);
+                    }
+
+                }
+                if (texto_enviar_arreglo_objeto is string[])
+                {
+                    texto_enviar_arreglo_string = (string[])texto_enviar_arreglo_objeto;
+                }
+            }
+
+            return texto_enviar_arreglo_string;
+        }
 
     }
 }
