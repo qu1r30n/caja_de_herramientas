@@ -107,5 +107,20 @@ namespace caja_de_herramientas.clases.herramientas
             return texto_editado;
         }
 
+        public string concatenacion_caracter_separacion_dentro_de_un_for(string tex_a_cambiar, string tex_a_agregar, int ciclo_en_el_que_esta, int ultimo_ciclo_Length, object caracter_separacion_objeto = null)
+        {
+            string[] caracter_separacion = var_GG.GG_funcion_caracter_separacion(caracter_separacion_objeto);
+
+            if (ciclo_en_el_que_esta < ultimo_ciclo_Length)
+            {
+                tex_a_cambiar = tex_a_cambiar + tex_a_agregar + caracter_separacion[0];
+            }
+            else
+            {
+                tex_a_cambiar = tex_a_cambiar + tex_a_agregar;
+            }
+            return tex_a_cambiar;
+        }
+
     }
 }
